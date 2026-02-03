@@ -18,9 +18,7 @@ import Fade from "@mui/material/Fade";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import NotificationsPausedIcon from "@mui/icons-material/NotificationsPaused";
-import { NavSearchInput } from "../atoms/inputs/NavSearchInput";
 import { CustomAvatar } from "../../assets/icons/Avatar";
-
 import { logoutThunk } from "../../store/auth/authThunk";
 import {
   selectUnreadMsgAlarmCnt,
@@ -36,6 +34,8 @@ import { selectUserProfileById } from "../../store/user/usersEntitiesSelector";
 import { EmptyState } from "../common/empty/EmptyState";
 import { theme } from "../../theme/theme";
 import DraftsIcon from "@mui/icons-material/Drafts";
+import { logout } from "../../store/auth/authAction";
+
 export default function NavBar() {
   const isLogin = useSelector((state: RootState) => state.User.isLogin);
   const userId = useSelector((state: RootState) => state.User.id);
@@ -59,9 +59,10 @@ export default function NavBar() {
     setAnchorEl(event.currentTarget);
   };
 
-  const logout = async () => {
+  const logoutFunc = async () => {
     const keepUserId = userId;
     await dispatch(logoutThunk({ userId: keepUserId }));
+    dispatch(logout());
   };
 
   const showMsgAlarms = async (event: React.MouseEvent<HTMLElement>) => {
@@ -90,7 +91,7 @@ export default function NavBar() {
             bgcolor: (theme) => theme.palette.background.paper,
           }}
         >
-          <Box sx={{}}>
+          <Box>
             <NavLink to={"/"}>
               <Button
                 sx={{ color: (theme) => theme.palette.primary.contrastText }}
@@ -112,9 +113,9 @@ export default function NavBar() {
             </NavLink>
           </Box>
           <Box sx={{ color: (theme) => theme.palette.primary.main }}>
-            <form action="" method="post">
+            {/* <form action="" method="post">
               <NavSearchInput></NavSearchInput>
-            </form>
+            </form> */}
           </Box>
 
           {isLogin === true ? (
@@ -279,7 +280,7 @@ export default function NavBar() {
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={logout}
+                onClick={logoutFunc}
                 color="inherit"
               >
                 <LogoutIcon

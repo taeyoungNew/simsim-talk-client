@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { messageThunk } from "./messageThunk";
+import { logout } from "../auth/authAction";
 
 interface Error {
   status: number;
@@ -63,6 +64,7 @@ export const messageSlice = createSlice({
   },
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => messageInitialState)
       .addCase(messageThunk.pending, (state, _) => {
         state.isLoading = true;
       })

@@ -7,6 +7,7 @@ import {
 } from "../comment/commentThunk";
 import { postLikeCencelThunk, postLikeThunk } from "../like/postLikeThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
+import { logout } from "../auth/authAction";
 
 interface IsLastIsLoading {
   isLoading: boolean;
@@ -57,6 +58,10 @@ export const getPostDetailSlice = createSlice({
 
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, _) => {
+        state.isLiked = false;
+        state.isFollowinged = false;
+      })
       .addCase(getPostDetailThunk.pending, (state, action) => {
         state.isLoading = true;
       })

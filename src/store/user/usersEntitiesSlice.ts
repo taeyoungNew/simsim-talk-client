@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer";
 import { getPostsThunk } from "../post/allPostsThunk";
 import {
@@ -9,6 +9,7 @@ import {
 } from "./userInfoThunk";
 import { loginThunk } from "../auth/authThunk";
 import { getSuggestedUserInitThunk } from "../suggestedUser/suggestedUserThunk";
+import { logout } from "../auth/authAction";
 interface Error {
   status: number;
   errorCode: string;
@@ -59,6 +60,7 @@ export const usersEntitiesSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(logout, (state, action) => usersEntityInitialState)
       .addCase(getSuggestedUserInitThunk.pending, (state, action) => {
         state.isLoading = true;
       })

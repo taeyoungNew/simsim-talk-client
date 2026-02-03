@@ -6,6 +6,7 @@ import {
   myInfoAPI,
   userInfoAPI,
 } from "../../apis/user";
+import { loadingEnd, loadingStart } from "../loading/loadingSlice";
 
 interface Error {
   status: number;
@@ -135,9 +136,9 @@ export const myInfoThunk = createAsyncThunk<
   string,
   { rejectValue: Error }
 >("user/myInfo", async (_, thunkAPI) => {
+  thunkAPI.dispatch(loadingStart());
   try {
     const getMyInfo = await myInfoAPI();
-    console.log("getMyInfo = ", getMyInfo);
 
     return getMyInfo.data.data;
   } catch (error: any) {
@@ -146,6 +147,8 @@ export const myInfoThunk = createAsyncThunk<
       status: error.response.status,
       message: error.response.data.message,
     });
+  } finally {
+    thunkAPI.dispatch(loadingEnd());
   }
 });
 
@@ -154,6 +157,7 @@ export const userInfoThunk = createAsyncThunk<
   string,
   { rejectValue: Error }
 >("user/userInfo", async (userId, thunkAPI) => {
+  thunkAPI.dispatch(loadingStart());
   try {
     const getUserInfoResult = await userInfoAPI(userId);
     const getUserInfo = getUserInfoResult.data.data;
@@ -180,6 +184,8 @@ export const userInfoThunk = createAsyncThunk<
       status: error.response.status,
       message: error.response.data.message,
     });
+  } finally {
+    thunkAPI.dispatch(loadingEnd());
   }
 });
 

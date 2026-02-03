@@ -12,12 +12,13 @@ export const MyChattingRooms = () => {
   return (
     <Box
       sx={{
-        maxWidth: "100%",
-        height: "auto",
-        maxHeight: "14rem",
+        height: "15rem",
         backgroundColor: (theme) => theme.palette.background.paper,
         borderRadius: "10px",
         padding: "0.8rem",
+        display: "flex",
+        overflowX: "hidden",
+        flexDirection: "column",
       }}
     >
       <Typography
@@ -35,9 +36,9 @@ export const MyChattingRooms = () => {
           display: "flex",
           flexDirection: "column",
           gap: 0.8,
-          maxHeight: "inherit",
-          overflow: "scroll",
+          flex: 1,
           overflowY: "auto",
+          maxHeight: "inherit",
           scrollbarGutter: "stable",
         }}
       >

@@ -40,6 +40,15 @@ export const userSlice = createSlice({
   name: "Auth",
   initialState,
   reducers: {
+    logoutLocal: (state) => {
+      state.isLogin = false;
+      (state.id = ""),
+        (state.email = ""),
+        (state.nickname = ""),
+        (state.profileUrl = ""),
+        (state.isLoginSuccess = false),
+        (state.initialized = false);
+    },
     resetUserError: (state) => {
       state.error = null;
     },

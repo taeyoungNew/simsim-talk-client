@@ -4,6 +4,7 @@ import {
   getAllAlarmByUserThunk,
   markAlarmThunk,
 } from "./alarmThunk";
+import { logout } from "../auth/authAction";
 
 interface Error {
   status: number;
@@ -47,6 +48,7 @@ export const alarmSlice = createSlice({
   reducers: {},
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => alarmInitialState)
       .addCase(getAlarmThunk.pending, (state, _) => {
         state.isLoading = true;
       })

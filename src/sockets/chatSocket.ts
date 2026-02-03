@@ -2,7 +2,7 @@ import { getSocket } from ".";
 import { useAppDispatch } from "../store/hook";
 import { clearMessageByRoom } from "../store/message/messageSlice";
 import { messageThunk } from "../store/message/messageThunk";
-import { AppDispath } from "../store";
+import { AppDispatch } from "../store";
 import { deleteChatRoom } from "../store/chat/chatSlice";
 
 interface SendMessage {
@@ -20,7 +20,7 @@ interface ReceiveMessage {
   senderId: string;
 }
 export const leaveChatRoom = async (
-  dispatch: AppDispath,
+  dispatch: AppDispatch,
   chatRoomId: string,
 ) => {
   const socket = getSocket();

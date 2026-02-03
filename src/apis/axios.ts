@@ -1,29 +1,18 @@
 import axios from "axios";
-import { useAppDispatch } from "../store/hook";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
-
-import { logoutThunk } from "../store/auth/authThunk";
 
 const instance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE}`,
   withCredentials: true,
 });
 
-const logout = async () => {
-  const userId = useSelector((state: RootState) => state.User.id);
-  const keepUserId = userId;
-  const dispatch = useAppDispatch();
-  await dispatch(logoutThunk({ userId: keepUserId }));
-};
-
 instance.interceptors.response.use(
   (res) => res,
   (err) => {
-    const status = err.response?.status;
+    const message = err.response?.data.message;
+    const status = err.response?.data.status;
 
-    if (status === 401) {
-      logout();
+    if (status === 401 || status === 403) {
+      err.isAuthExpired = true;
     }
 
     return Promise.reject(err);

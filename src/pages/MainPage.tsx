@@ -1,6 +1,6 @@
 import { Box, Grid2, ListItem } from "@mui/material";
 import { PostCard } from "../components/molecules/PostCard";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../store/hook";
 import { getPostsThunk } from "../store/post/allPostsThunk";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ interface WritePost {
 }
 
 export const MainPage = () => {
+  // const isLogin = true;
   const isLogin = useSelector((state: RootState) => state.User.isLogin);
   const onlineUsers = useSelector(
     (state: RootState) => state.OnlineUsersSlice.ids,

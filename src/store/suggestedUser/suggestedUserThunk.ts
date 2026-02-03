@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getSuggestedUserAPI } from "../../apis/suggestedUser";
+import { loadingEnd, loadingStart } from "../loading/loadingSlice";
 interface Error {
   status: number;
   errorCode: string;
@@ -28,6 +29,7 @@ export const getSuggestedUserInitThunk = createAsyncThunk<
   void,
   { rejectValue: Error }
 >("getSuggestedUser/init", async (_, thunkAPI) => {
+  thunkAPI.dispatch(loadingStart());
   try {
     const result = await getSuggestedUserAPI();
     return result.data;
@@ -37,6 +39,8 @@ export const getSuggestedUserInitThunk = createAsyncThunk<
       status: error.response.status,
       message: error.response.data.message,
     });
+  } finally {
+    thunkAPI.dispatch(loadingEnd());
   }
 });
 

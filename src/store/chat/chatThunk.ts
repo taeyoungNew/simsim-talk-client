@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createChatRoom, getChatListAPI } from "../../apis/chat";
 import { joinChatRoom } from "../../sockets/chatSocket";
+import { openSnackbar } from "../error/errorSlice";
 
 type MessageType = "TEXT" | "IMAGE" | "FILE" | "SYSTEM";
 
@@ -69,6 +70,8 @@ export const chatThunk = createAsyncThunk<
         isNew: chatRoomResult.isNew,
       };
     } catch (error: any) {
+      const errMessage = error.response.data.message;
+      thunkAPI.dispatch(openSnackbar(errMessage));
       return thunkAPI.rejectWithValue({
         errorCode: error.response.data.errorCode,
         status: error.response.data.status,

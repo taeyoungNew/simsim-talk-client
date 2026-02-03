@@ -5,6 +5,7 @@ import {
   getmessageAlarmThunk,
   markAlarmAsReadByRoomThunk,
 } from "./messageAlarmThunk";
+import { logout } from "../auth/authAction";
 
 interface Error {
   status: number;
@@ -57,6 +58,7 @@ export const messageAlarmSlice = createSlice({
   },
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => messageAlarmInitialState)
       .addCase(addmessageAlarmThunk.pending, (state, _) => {
         state.isLoading = true;
       })

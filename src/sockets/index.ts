@@ -1,6 +1,6 @@
 import { io, Socket } from "socket.io-client";
 import { setOnlineUsers } from "../store/onlineUsers/onlineUsersSlice";
-import { AppDispath } from "../store";
+import { AppDispatch } from "../store";
 import { addMessage, setMessagesByRoom } from "../store/message/messageSlice";
 import {
   addmessageAlarmThunk,
@@ -16,7 +16,7 @@ let socket: Socket | null = null;
 
 export const getSocket = () => socket;
 
-export const initSocket = (dispatch: AppDispath) => {
+export const initSocket = (dispatch: AppDispatch) => {
   if (!socket) {
     socket = io(`http://localhost:3001`, {
       withCredentials: true,

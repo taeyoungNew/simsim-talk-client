@@ -8,9 +8,11 @@ import {
 } from "../../store/follow/followThunk";
 import { useAppDispatch } from "../../store/hook";
 import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 interface FollowUserCardProps {
   id: string;
+  profileUrl: string;
   isMyPage: boolean;
   nickname: string;
   username?: string;
@@ -20,6 +22,7 @@ interface FollowUserCardProps {
 
 export const FollowUserCard = ({
   id,
+  profileUrl,
   nickname,
   username,
   isFollowing,
@@ -27,7 +30,7 @@ export const FollowUserCard = ({
   myId,
 }: FollowUserCardProps) => {
   const dispatch = useAppDispatch();
-
+  const prevPathName = location.pathname;
   const following = async () => {
     await dispatch(
       followingThunk({
@@ -47,6 +50,7 @@ export const FollowUserCard = ({
       }),
     );
   };
+
   return (
     <Box
       sx={{
@@ -65,7 +69,17 @@ export const FollowUserCard = ({
           paddingX: "0.4rem",
         }}
       >
-        <CustomAvatar sx={{ width: "3rem" }} />
+        <NavLink
+          style={{ textDecorationLine: "none" }}
+          to={isMyPage ? `/userPage/${id}` : `/myPage`}
+          state={
+            isMyPage
+              ? { myPage: false, prevPathName }
+              : { myPage: true, prevPathName }
+          }
+        >
+          <CustomAvatar profileUrl={profileUrl} sx={{ width: "3rem" }} />
+        </NavLink>
       </Box>
       <Box sx={{ flexGrow: 1 }}>
         <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
@@ -101,10 +115,6 @@ export const FollowUserCard = ({
           />
         )}
       </Box>
-      {/* {isMyPage ? (
-      ) : (
-        <Box />
-      )} */}
     </Box>
   );
 };

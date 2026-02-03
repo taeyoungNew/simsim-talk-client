@@ -16,12 +16,14 @@ export const MyFriends = () => {
     <Box
       sx={{
         maxWidth: "100%",
-        height: "auto",
+        height: "15rem",
         backgroundColor: (theme) => theme.palette.background.paper,
         borderRadius: "10px",
         padding: "0.8rem",
         maxHeight: "10em",
         overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography sx={{ fontSize: "1rem", fontWeight: "Bold" }}>
@@ -30,6 +32,7 @@ export const MyFriends = () => {
       <Box
         sx={{
           display: "flex",
+          flex: 1,
           flexDirection: "column",
           gap: 1,
           overflow: "scroll",

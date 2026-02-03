@@ -351,6 +351,7 @@ export const UserPageBody = ({
             {userCrrInfo.followings.map((el) => {
               return (
                 <FollowUserCard
+                  profileUrl={el.profileUrl}
                   key={el.id}
                   id={el.id}
                   nickname={el.nickname}
@@ -370,6 +371,7 @@ export const UserPageBody = ({
             {userCrrInfo.followers.map((el) => {
               return (
                 <FollowUserCard
+                  profileUrl={el.profileUrl}
                   key={el.id}
                   id={el.id}
                   nickname={el.nickname}

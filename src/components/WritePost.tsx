@@ -208,12 +208,12 @@ export const WritePost = () => {
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ display: "felx", alignItems: "center" }}>
-              <Button
+              {/* <Button
                 onClick={live}
                 sx={{ color: (theme) => theme.palette.fontColor.icon }}
               >
                 <VideocamIcon></VideocamIcon>
-              </Button>
+              </Button> */}
               <Button
                 ref={emojiButtonRef}
                 onClick={handleEmojiToggle}

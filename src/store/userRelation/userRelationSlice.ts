@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getFollowingsThunk, getFriendsThunk } from "./userRelationThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
+import { logout } from "../auth/authAction";
 
 interface Error {
   status: number;
@@ -54,20 +55,14 @@ export const userRelationSlice = createSlice({
   reducers: {},
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => userRelationInitialState)
       .addCase(getFriendsThunk.pending, (state, action) => {
         state.isLoading = true;
       })
       .addCase(getFriendsThunk.fulfilled, (state, action) => {
         const friends = action.payload;
-        friends.forEach((el) => {
-          state.friends.push({
-            chatRoomId: el.chatRoomId,
-            email: el.email,
-            friendId: el.friendId,
-            nickname: el.nickname,
-            profileUrl: el.profileUrl,
-          });
-        });
+        state.friends = friends;
+
         state.isLoading = false;
       })
       .addCase(getFriendsThunk.rejected, (state, action) => {

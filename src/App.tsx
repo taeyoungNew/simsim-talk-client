@@ -26,10 +26,14 @@ import {
 import { getChatsThunk } from "./store/chat/chatThunk";
 import { getAllAlarmByUserThunk } from "./store/alarm/alarmThunk";
 import { SuggestedFriendsPage } from "./pages/suggestedFriends/SuggestedFriendsPage";
+import GlobalLoading from "./components/common/loading/GlobalLoading";
+import { loadingCntSelector } from "./store/loading/loadingSelector";
+import GlobalSnackbar from "./components/common/snackbar/GlobalSnackbar";
 
 function App() {
   const dispatch = useAppDispatch();
   const isLogin = useSelector((state: RootState) => state.User.isLogin);
+  const isLoading = useSelector(loadingCntSelector);
 
   const { id, initialized } = useSelector((state: RootState) => state.User);
   useEffect(() => {
@@ -73,6 +77,8 @@ function App() {
 
   return (
     <>
+      <GlobalSnackbar />
+      <GlobalLoading open={isLoading} />
       <ThemeProvider theme={theme}>
         <CssBaseline></CssBaseline>
         <BrowserRouter>
@@ -110,7 +116,11 @@ function App() {
               />
               <Route
                 path="/suggestedFriendsPage"
-                element={<SuggestedFriendsPage />}
+                element={
+                  <AuthRoute>
+                    <SuggestedFriendsPage />
+                  </AuthRoute>
+                }
               />
               <Route path="*" element={<NoPage />} />
             </Route>

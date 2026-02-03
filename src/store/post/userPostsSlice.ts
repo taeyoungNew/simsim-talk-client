@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getUserPostsThunk } from "./userPostsThunk";
 import { deletePostThunk, modifyPostThunk } from "./postDetailThunk";
 import { postLikeCencelThunk, postLikeThunk } from "../like/postLikeThunk";
+import { logout } from "../auth/authAction";
 
 interface IsLastIsLoading {
   isLoading: boolean;
@@ -74,6 +75,7 @@ export const getUserPostsSlice = createSlice({
   },
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => getUserPostsInitialState)
       .addCase(postLikeThunk.pending, (state, action) => {
         state.isLoading = true;
       })

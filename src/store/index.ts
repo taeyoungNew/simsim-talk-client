@@ -13,6 +13,8 @@ import { userRelationSlice } from "./userRelation/userRelationSlice";
 import { alarmSlice } from "./alarm/alarmSlice";
 import { suggestedUserSlice } from "./suggestedUser/suggestedUserSlice";
 import { usersEntitiesSlice } from "./user/usersEntitiesSlice";
+import loadingSlice from "./loading/loadingSlice";
+import errorSlice from "./error/errorSlice";
 
 const store = configureStore({
   reducer: {
@@ -30,11 +32,13 @@ const store = configureStore({
     AlarmSlice: alarmSlice.reducer,
     SuggestedUserSlice: suggestedUserSlice.reducer,
     UsersEntitiesSlice: usersEntitiesSlice.reducer,
+    LodingSlice: loadingSlice,
+    errorSlice: errorSlice,
   },
   devTools: true,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispath = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

@@ -8,6 +8,7 @@ import {
 import { getMsgAlarmsSocket } from "../../sockets/alarmSocket";
 import { deleteAuth } from "./authSlice";
 import { resetLiked } from "../post/allPostsSlice";
+import { loadingStart, loadingEnd } from "../loading/loadingSlice";
 import { reconnectSocket } from "../../sockets";
 
 interface LoginReq {
@@ -46,6 +47,7 @@ export const loginThunk = createAsyncThunk<
     rejectValue: Error;
   }
 >("auth/login", async ({ email, password }, thunkAPI) => {
+  thunkAPI.dispatch(loadingStart());
   try {
     const loginResult = await loginAPI({
       email,
@@ -62,6 +64,8 @@ export const loginThunk = createAsyncThunk<
       status: error.response.data.status,
       message: error.response.data.message,
     });
+  } finally {
+    thunkAPI.dispatch(loadingEnd());
   }
 });
 
@@ -70,6 +74,7 @@ export const logoutThunk = createAsyncThunk<
   { userId: string },
   { rejectValue: Error }
 >("auth/logout", async ({ userId }, thunkAPI) => {
+  thunkAPI.dispatch(loadingStart());
   try {
     const res = await logoutAPI();
     thunkAPI.dispatch(resetLiked());
@@ -82,6 +87,8 @@ export const logoutThunk = createAsyncThunk<
       status: error.response.data.status,
       message: error.response.data.message,
     });
+  } finally {
+    thunkAPI.dispatch(loadingEnd());
   }
 });
 

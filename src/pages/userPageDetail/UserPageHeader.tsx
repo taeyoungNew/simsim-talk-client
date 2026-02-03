@@ -2,7 +2,7 @@ import { Badge, Box, Button, IconButton, Typography } from "@mui/material";
 import PhotoOutlinedIcon from "@mui/icons-material/PhotoOutlined";
 import { CustomAvatar } from "../../assets/icons/Avatar";
 import EditButton from "../../components/atoms/buttons/EditButton";
-import { ShareButton } from "../../components/atoms/buttons/ShareButton";
+import { ChattingButton } from "../../components/atoms/buttons/ChattingButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useEffect, useRef, useState } from "react";
@@ -26,6 +26,7 @@ import {
   selectUserProfileById,
 } from "../../store/user/usersEntitiesSelector";
 import { ImageZoomDialog } from "../../components/common/ImageZoomDialog";
+import { chatThunk } from "../../store/chat/chatThunk";
 
 interface HeaderProps {
   onViewContent: React.Dispatch<
@@ -61,13 +62,21 @@ export const UserPageHeader = ({
       }),
     );
   };
+  const openChatWindow = async (e: { currentTarget: HTMLElement }) => {
+    setTimeout(() => {
+      dispatch(
+        chatThunk({
+          targetUserId: userId,
+          targetUserNickname: userInfo.nickname,
+        }),
+      );
+    }, 0);
+  };
   const zoomInBackgroundImg = async (e: React.MouseEvent) => {
     await setBackgroundOpen(true);
-    console.log("zoomInBackgroundImg = ", backgroundOpen);
     e.stopPropagation();
   };
   const zoomInProfileImg = (e: React.MouseEvent) => {
-    console.log("zoomInProfileImg");
     setProfileOpen(true);
     e.stopPropagation();
   };
@@ -305,7 +314,10 @@ export const UserPageHeader = ({
               )}
 
               <Box>
-                <ShareButton sx={{ width: "8rem" }}></ShareButton>
+                <ChattingButton
+                  onClick={openChatWindow}
+                  sx={{ width: "8rem" }}
+                ></ChattingButton>
               </Box>
             </Box>
           </Box>

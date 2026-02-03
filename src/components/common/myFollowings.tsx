@@ -25,7 +25,10 @@ export const MyFollowings = ({ followingCnt }: MyFollowingsProps) => {
           backgroundColor: (theme) => theme.palette.background.paper,
           borderRadius: "10px",
           padding: "0.8rem",
-          maxHeight: "16rem",
+          height: "15rem",
+          overflowX: "hidden",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Typography sx={{ fontSize: "1rem", fontWeight: "Bold" }}>
@@ -37,9 +40,12 @@ export const MyFollowings = ({ followingCnt }: MyFollowingsProps) => {
               display: "flex",
               flexDirection: "column",
               gap: 1,
-              overflow: "scroll",
+              flex: 1,
               overflowY: "auto",
+              overflowX: "hidden",
+              maxHeight: "inherit",
               scrollbarGutter: "stable",
+              // scrollbarWidth: "none",
             }}
           >
             {followingList.map((el, index) => {

@@ -1,4 +1,5 @@
 import { Backdrop, CircularProgress, Box } from "@mui/material";
+import { theme } from "../../../theme/theme";
 
 interface LoadingOverlayProps {
   open: boolean;
@@ -22,7 +23,11 @@ const LoadingOverlay = ({ open, zIndex = 1300 }: LoadingOverlayProps) => {
           gap: 1,
         }}
       >
-        <CircularProgress size={48} thickness={4} />
+        <CircularProgress
+          style={{ color: theme.palette.chatCardColor.unreadBd }}
+          size={48}
+          thickness={4}
+        />
       </Box>
     </Backdrop>
   );

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getSuggestedUserInitThunk } from "./suggestedUserThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
+import { logout } from "../auth/authAction";
 
 interface Error {
   status: number;
@@ -40,6 +41,7 @@ export const suggestedUserSlice = createSlice({
   reducers: {},
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => suggestedUserInitialState)
       .addCase(getSuggestedUserInitThunk.pending, (state, action) => {
         state.isLoading = true;
       })

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { chatThunk, getChatsThunk } from "./chatThunk";
+import { logout } from "../auth/authAction";
 
 interface IsLastIsLoading {
   isLoading: boolean;
@@ -61,6 +62,7 @@ export const chatSlice = createSlice({
 
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => chatInittialState)
       .addCase(getChatsThunk.pending, (state, action) => {
         state.isLoading = true;
       })

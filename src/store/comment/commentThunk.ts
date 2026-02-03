@@ -6,6 +6,7 @@ import {
 } from "../../apis/comment";
 import { updatePostCommentCnt } from "../post/allPostsSlice";
 import { updateUserPostCommentCnt } from "../post/userPostsSlice";
+import { openSnackbar } from "../error/errorSlice";
 
 interface Error {
   status: number;
@@ -60,6 +61,8 @@ export const createCommentThunk = createAsyncThunk<
     );
     return result;
   } catch (error: any) {
+    const errMessage = error.response.data.message;
+    thunkAPI.dispatch(openSnackbar(errMessage));
     return thunkAPI.rejectWithValue({
       errorCode: error.response.data.errorCode,
       status: error.response.data.status,
@@ -79,6 +82,8 @@ export const modifyCommentThunk = createAsyncThunk<
     const result = (await modifyCommentAPI(data)).data.data.comment;
     return result;
   } catch (error: any) {
+    const errMessage = error.response.data.message;
+    thunkAPI.dispatch(openSnackbar(errMessage));
     return thunkAPI.rejectWithValue({
       errorCode: error.response.data.errorCode,
       status: error.response.data.status,

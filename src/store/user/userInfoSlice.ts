@@ -6,8 +6,7 @@ import {
   userInfoThunk,
 } from "./userInfoThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
-import { useSelector } from "react-redux";
-import { RootState } from "..";
+import { logout } from "../auth/authAction";
 
 interface Error {
   status: number;
@@ -101,6 +100,7 @@ export const userInfoSlice = createSlice({
 
   extraReducers: async (builder) => {
     builder
+      .addCase(logout, (state, action) => userInfoInitialState)
       .addCase(myInfoThunk.pending, (state, action) => {
         state.isLoading = true;
       })

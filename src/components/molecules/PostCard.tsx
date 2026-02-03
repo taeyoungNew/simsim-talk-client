@@ -10,6 +10,7 @@ import { AvatarMenu } from "./AvatarMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { selectUserProfileById } from "../../store/user/usersEntitiesSelector";
+import SectionLoading from "../common/loading/SectionLoading";
 
 interface CardProps {
   id: number;
@@ -160,7 +161,6 @@ export const PostCard = ({
             </Box>
           </DetailPostLink>
         </Grid2>
-        {/* </DetailPostLink> */}
       </Box>
     </>
   );

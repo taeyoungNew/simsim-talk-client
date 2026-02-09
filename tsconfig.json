@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["DOM", "ES2022", "ES2022.Intl"],
-    "target": "ES2022",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "target": "ES2022"
   },
   "files": [],
   "references": [

@@ -73,7 +73,8 @@ function App() {
   if (!initialized) {
     return <div>로딩중</div>;
   }
-
+  console.log("import.meta.env", import.meta.env);
+  console.log("import.meta.env", import.meta.env.VITE_SOCKET_BASE);
   return (
     <>
       <GlobalSnackbar />

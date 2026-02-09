@@ -18,7 +18,7 @@ export const getSocket = () => socket;
 
 export const initSocket = (dispatch: AppDispatch) => {
   if (!socket) {
-    socket = io(`http://localhost:3001`, {
+    socket = io(`${import.meta.env.SOCKET_BASE}`, {
       withCredentials: true,
     });
   }

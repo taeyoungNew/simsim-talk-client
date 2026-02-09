@@ -18,7 +18,7 @@ export const getSocket = () => socket;
 
 export const initSocket = (dispatch: AppDispatch) => {
   if (!socket) {
-    socket = io(`${import.meta.env.SOCKET_BASE}`, {
+    socket = io(`${import.meta.env.VITE_SOCKET_BASE}`, {
       withCredentials: true,
     });
   }

@@ -8,7 +8,6 @@ const instance = axios.create({
 instance.interceptors.response.use(
   (res) => res,
   (err) => {
-    const message = err.response?.data.message;
     const status = err.response?.data.status;
 
     if (status === 401 || status === 403) {

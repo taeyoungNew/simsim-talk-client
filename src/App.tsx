@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { ThemeProvider } from "@emotion/react";
 import "./App.css";
 import { theme } from "./theme/theme";
@@ -10,7 +9,7 @@ import { SignupPage } from "./pages/SignupPage";
 import { NoPage } from "./pages/NoPage";
 import { UserPageDetail } from "./pages/userPageDetail/UserPageDetail";
 import { Applayout } from "./layout/Applayout";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "./store/hook";
 import UnAuthRoute from "./route/UnAuthRoute";
 import { authMeThunk } from "./store/auth/authThunk";

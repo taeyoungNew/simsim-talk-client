@@ -17,6 +17,11 @@ let socket: Socket | null = null;
 export const getSocket = () => socket;
 
 export const initSocket = (dispatch: AppDispatch) => {
+  console.log(
+    "import.meta.env.VITE_SOCKET_BASE = ",
+    import.meta.env.VITE_SOCKET_BASE,
+  );
+
   if (!socket) {
     socket = io(`${import.meta.env.VITE_SOCKET_BASE}`, {
       withCredentials: true,

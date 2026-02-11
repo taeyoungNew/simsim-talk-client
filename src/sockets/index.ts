@@ -25,6 +25,7 @@ export const initSocket = (dispatch: AppDispatch) => {
   if (!socket) {
     socket = io(`${import.meta.env.VITE_SOCKET_BASE}`, {
       withCredentials: true,
+      transports: ["websocket"],
     });
   }
 

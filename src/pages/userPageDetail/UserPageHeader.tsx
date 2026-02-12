@@ -279,46 +279,47 @@ export const UserPageHeader = ({
             <Box
               sx={{ justifyContent: "end", display: "flex", flex: 0.6, gap: 1 }}
             >
-              {isMyPage === true ? (
-                <Box>
-                  <EditButton
-                    onClick={() => {
-                      if (isMyPage) onViewContent("editUserInfo");
-                    }}
-                  ></EditButton>
-                </Box>
-              ) : userInfo.isFollowinged ? (
-                <Box>
-                  <Button
-                    sx={{
-                      background: (theme) => theme.palette.background.default,
-                      color: (theme) => theme.palette.fontColor.icon,
-                    }}
-                    onClick={() => followingCencel()}
-                  >
-                    팔로잉중
-                  </Button>
-                </Box>
+              {isMyPage ? (
+                <>
+                  <Box>
+                    <EditButton onClick={() => onViewContent("editUserInfo")} />
+                  </Box>
+                </>
               ) : (
-                <Box>
-                  <Button
-                    sx={{
-                      background: (theme) => theme.palette.primary.main,
-                      color: (theme) => theme.palette.background.paper,
-                    }}
-                    onClick={() => following()}
-                  >
-                    팔로잉
-                  </Button>
-                </Box>
-              )}
+                <>
+                  <Box>
+                    {userInfo.isFollowinged ? (
+                      <Button
+                        sx={{
+                          background: (theme) =>
+                            theme.palette.background.default,
+                          color: (theme) => theme.palette.fontColor.icon,
+                        }}
+                        onClick={followingCencel}
+                      >
+                        팔로잉중
+                      </Button>
+                    ) : (
+                      <Button
+                        sx={{
+                          background: (theme) => theme.palette.primary.main,
+                          color: (theme) => theme.palette.background.paper,
+                        }}
+                        onClick={following}
+                      >
+                        팔로잉
+                      </Button>
+                    )}
+                  </Box>
 
-              <Box>
-                <ChattingButton
-                  onClick={openChatWindow}
-                  sx={{ width: "8rem" }}
-                ></ChattingButton>
-              </Box>
+                  <Box>
+                    <ChattingButton
+                      onClick={openChatWindow}
+                      sx={{ width: "8rem" }}
+                    />
+                  </Box>
+                </>
+              )}
             </Box>
           </Box>
           <Box sx={{ flex: 2, display: "flex" }}>

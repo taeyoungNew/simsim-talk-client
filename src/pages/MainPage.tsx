@@ -38,7 +38,7 @@ export const MainPage = () => {
   const lastPostRef = useRef(null);
 
   const getPosts = async (postLastId: number) => {
-    await dispatch(getPostsThunk(postLastId));
+    dispatch(getPostsThunk(postLastId));
   };
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -52,8 +52,7 @@ export const MainPage = () => {
           dispatch(getFriendsThunk()),
           dispatch(getChatsThunk()),
           dispatch(getAllAlarmByUserThunk()),
-          console.log("???"),
-          getPosts(postLastId),
+          dispatch(getPostsThunk(postLastId)),
         ]);
       } finally {
         dispatch(loadingEnd());

@@ -28,6 +28,7 @@ import { SuggestedFriendsPage } from "./pages/suggestedFriends/SuggestedFriendsP
 import GlobalLoading from "./components/common/loading/GlobalLoading";
 import { loadingCntSelector } from "./store/loading/loadingSelector";
 import GlobalSnackbar from "./components/common/snackbar/GlobalSnackbar";
+import { loadingEnd, loadingStart } from "./store/loading/loadingSlice";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -50,10 +51,15 @@ function App() {
 
   useEffect(() => {
     if (isLogin) {
-      dispatch(getFollowingsThunk());
-      dispatch(getFriendsThunk());
-      dispatch(getChatsThunk());
-      dispatch(getAllAlarmByUserThunk());
+      dispatch(loadingStart());
+      try {
+        dispatch(getFollowingsThunk());
+        dispatch(getFriendsThunk());
+        dispatch(getChatsThunk());
+        dispatch(getAllAlarmByUserThunk());
+      } finally {
+        dispatch(loadingEnd());
+      }
     }
   }, [isLogin]);
   useEffect(() => {
@@ -70,11 +76,11 @@ function App() {
     }
   }, [id]);
 
-  if (!initialized) {
-    return <div>로딩중</div>;
-  }
-  console.log("import.meta.env", import.meta.env);
-  console.log("import.meta.env", import.meta.env.VITE_SOCKET_BASE);
+  // if (!initialized) {
+  //   return <div>로딩중</div>;
+  // }
+  // console.log("import.meta.env", import.meta.env);
+  // console.log("import.meta.env", import.meta.env.VITE_SOCKET_BASE);
   return (
     <>
       <GlobalSnackbar />

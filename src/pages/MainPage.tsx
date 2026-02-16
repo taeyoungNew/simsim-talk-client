@@ -6,6 +6,13 @@ import { getPostsThunk } from "../store/post/allPostsThunk";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { WritePost } from "../components/WritePost";
+import { loadingEnd, loadingStart } from "../store/loading/loadingSlice";
+import {
+  getFollowingsThunk,
+  getFriendsThunk,
+} from "../store/userRelation/userRelationThunk";
+import { getChatsThunk } from "../store/chat/chatThunk";
+import { getAllAlarmByUserThunk } from "../store/alarm/alarmThunk";
 
 interface WritePost {
   title: string;
@@ -37,8 +44,25 @@ export const MainPage = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   let isFetching = false;
   useEffect(() => {
-    getPosts(postLastId);
-  }, []);
+    const init = async () => {
+      dispatch(loadingStart());
+      try {
+        await Promise.all([
+          dispatch(getFollowingsThunk()),
+          dispatch(getFriendsThunk()),
+          dispatch(getChatsThunk()),
+          dispatch(getAllAlarmByUserThunk()),
+          getPosts(postLastId),
+        ]);
+      } finally {
+        dispatch(loadingEnd());
+      }
+    };
+  });
+  // useEffect(() => {
+
+  //   getPosts(postLastId);
+  // }, []);
 
   useEffect(() => {
     if (!lastPostRef.current) return;

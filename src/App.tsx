@@ -49,21 +49,21 @@ function App() {
     initSocket(dispatch);
   }, []);
 
-  useEffect(() => {
-    const init = async () => {
-      dispatch(loadingStart());
-      try {
-        await Promise.all([
-          dispatch(getFollowingsThunk()),
-          dispatch(getFriendsThunk()),
-          dispatch(getChatsThunk()),
-          dispatch(getAllAlarmByUserThunk()),
-        ]);
-      } finally {
-        dispatch(loadingEnd());
-      }
-    };
-  });
+  // useEffect(() => {
+  //   const init = async () => {
+  //     dispatch(loadingStart());
+  //     try {
+  //       await Promise.all([
+  //         dispatch(getFollowingsThunk()),
+  //         dispatch(getFriendsThunk()),
+  //         dispatch(getChatsThunk()),
+  //         dispatch(getAllAlarmByUserThunk()),
+  //       ]);
+  //     } finally {
+  //       dispatch(loadingEnd());
+  //     }
+  //   };
+  // });
 
   // useEffect(() => {
   //   if (isLogin) {

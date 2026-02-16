@@ -52,13 +52,16 @@ export const MainPage = () => {
           dispatch(getFriendsThunk()),
           dispatch(getChatsThunk()),
           dispatch(getAllAlarmByUserThunk()),
+          console.log("???"),
           getPosts(postLastId),
         ]);
       } finally {
         dispatch(loadingEnd());
       }
     };
-  });
+    init();
+  }, []);
+
   // useEffect(() => {
 
   //   getPosts(postLastId);

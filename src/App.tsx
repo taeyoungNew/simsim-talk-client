@@ -50,18 +50,37 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (isLogin) {
+    const init = async () => {
       dispatch(loadingStart());
       try {
-        dispatch(getFollowingsThunk());
-        dispatch(getFriendsThunk());
-        dispatch(getChatsThunk());
-        dispatch(getAllAlarmByUserThunk());
+        await Promise.all([
+          dispatch(getFollowingsThunk()),
+          dispatch(getFriendsThunk()),
+          dispatch(getChatsThunk()),
+          dispatch(getAllAlarmByUserThunk()),
+        ]);
       } finally {
         dispatch(loadingEnd());
       }
-    }
-  }, [isLogin]);
+    };
+  });
+
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     dispatch(loadingStart());
+  //     try {
+  //       await Promise.all([
+  //       dispatch(getFollowingsThunk());
+  //       dispatch(getFriendsThunk());
+  //       dispatch(getChatsThunk());
+  //       dispatch(getAllAlarmByUserThunk());
+  //     ]);
+
+  //     } finally {
+  //       dispatch(loadingEnd());
+  //     }
+  //   }
+  // }, [isLogin]);
   useEffect(() => {
     const socket = getSocket();
     if (id && socket) {

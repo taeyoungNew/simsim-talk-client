@@ -91,6 +91,23 @@ export const chatSlice = createSlice({
             targetUserId: getChatRoomInfo.targetUserId,
           });
         }
+
+        // ✅ chatRoomList 선반영
+        const existsInList = state.chatList.find(
+          (el) => el.chatRoomId === getChatRoomInfo.chatRoomId,
+        );
+
+        if (!existsInList) {
+          state.chatList.unshift({
+            chatRoomId: getChatRoomInfo.chatRoomId,
+            targetUserId: getChatRoomInfo.targetUserId,
+            targetUserNickname: getChatRoomInfo.targetUserNickname,
+            lastMessageAt: getChatRoomInfo.createdAt,
+            lastMessagePreview: "",
+            lastMessageType: "TEXT",
+            targetUserEmail: getChatRoomInfo.targetUserEmail,
+          });
+        }
         state.activeChatRoomId = getChatRoomInfo.chatRoomId;
         state.isLoading = false;
       })

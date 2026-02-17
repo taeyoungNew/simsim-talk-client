@@ -18,21 +18,13 @@ import AuthRoute from "./route/AuthRoute";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import { getSocket, initSocket } from "./sockets";
-import {
-  getFollowingsThunk,
-  getFriendsThunk,
-} from "./store/userRelation/userRelationThunk";
-import { getChatsThunk } from "./store/chat/chatThunk";
-import { getAllAlarmByUserThunk } from "./store/alarm/alarmThunk";
 import { SuggestedFriendsPage } from "./pages/suggestedFriends/SuggestedFriendsPage";
 import GlobalLoading from "./components/common/loading/GlobalLoading";
 import { loadingCntSelector } from "./store/loading/loadingSelector";
 import GlobalSnackbar from "./components/common/snackbar/GlobalSnackbar";
-import { loadingEnd, loadingStart } from "./store/loading/loadingSlice";
 
 function App() {
   const dispatch = useAppDispatch();
-  const isLogin = useSelector((state: RootState) => state.User.isLogin);
   const isLoading = useSelector(loadingCntSelector);
 
   const { id, initialized } = useSelector((state: RootState) => state.User);
@@ -49,38 +41,6 @@ function App() {
     initSocket(dispatch);
   }, []);
 
-  // useEffect(() => {
-  //   const init = async () => {
-  //     dispatch(loadingStart());
-  //     try {
-  //       await Promise.all([
-  //         dispatch(getFollowingsThunk()),
-  //         dispatch(getFriendsThunk()),
-  //         dispatch(getChatsThunk()),
-  //         dispatch(getAllAlarmByUserThunk()),
-  //       ]);
-  //     } finally {
-  //       dispatch(loadingEnd());
-  //     }
-  //   };
-  // });
-
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     dispatch(loadingStart());
-  //     try {
-  //       await Promise.all([
-  //       dispatch(getFollowingsThunk());
-  //       dispatch(getFriendsThunk());
-  //       dispatch(getChatsThunk());
-  //       dispatch(getAllAlarmByUserThunk());
-  //     ]);
-
-  //     } finally {
-  //       dispatch(loadingEnd());
-  //     }
-  //   }
-  // }, [isLogin]);
   useEffect(() => {
     const socket = getSocket();
     if (id && socket) {
@@ -95,11 +55,6 @@ function App() {
     }
   }, [id]);
 
-  // if (!initialized) {
-  //   return <div>로딩중</div>;
-  // }
-  // console.log("import.meta.env", import.meta.env);
-  // console.log("import.meta.env", import.meta.env.VITE_SOCKET_BASE);
   return (
     <>
       <GlobalSnackbar />

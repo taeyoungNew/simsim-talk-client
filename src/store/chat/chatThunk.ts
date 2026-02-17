@@ -16,9 +16,11 @@ interface CreateChatReq {
   targetUserNickname: string;
 }
 interface CreateChatRes {
+  createdAt: string;
   chatRoomId: string;
   targetUserId: string;
   targetUserNickname: string;
+  targetUserEmail: string;
   isNew: boolean;
 }
 interface ChatRoomType {
@@ -64,6 +66,8 @@ export const chatThunk = createAsyncThunk<
       const chatRoomResult = (await createChatRoom(targetUserId)).data;
       joinChatRoom(chatRoomResult.chatRoomId);
       return {
+        createdAt: chatRoomResult.createdAt,
+        targetUserEmail: chatRoomResult.targetUserEmail,
         targetUserNickname,
         targetUserId,
         chatRoomId: chatRoomResult.chatRoomId,

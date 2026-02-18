@@ -13,6 +13,16 @@ ID: test@test.com
 
 PW: 1234
 
+## 📝 회원가입 안내
+
+본 프로젝트는 포트폴리오 평가자가 쉽게 기능을 테스트할 수 있도록
+이메일 인증 없이 회원가입이 가능하도록 설계했습니다.
+
+실서비스에서는 이메일 인증이 필요하지만,
+데모 환경에서는 접근성과 테스트 편의성을 우선했습니다.
+
+※ 실제 서비스 전환 시 이메일 인증 플로우 추가가 가능한 구조입니다.
+
 # 🛠 Tech Stack
 
 React
@@ -130,6 +140,7 @@ isFetching 상태를 observer 조건에 포함하여
 
 # 📁 프로젝트 구조
 
+```
 src
 ├ components
 ├ pages
@@ -143,7 +154,8 @@ src
 ├ store
 ├ utils
 └ types
+```
 
 # 🧩 Backend Repository
 
-👉 https://github.com/yourname/simsimtalk-server
+👉 https://github.com/taeyoungNew/simsim-talk-server

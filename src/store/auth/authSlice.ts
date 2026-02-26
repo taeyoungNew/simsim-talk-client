@@ -29,11 +29,7 @@ const initialState: UserInitialState = {
   profileUrl: "",
   isLoginSuccess: false,
   initialized: false,
-  error: {
-    status: 0,
-    errorCode: "",
-    message: "",
-  },
+  error: null,
 };
 
 export const userSlice = createSlice({

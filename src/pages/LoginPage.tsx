@@ -68,7 +68,10 @@ export const LoginPage = () => {
               size={100}
             ></ChatQuote>
           </Grid2>
-          {isLoginError?.errorCode !== "" && isLoginError !== null ? (
+
+          {isLoginError !== undefined &&
+          isLoginError?.errorCode !== "" &&
+          isLoginError !== null ? (
             <ErrNotificationBar errorMessage={loginErrMsg}></ErrNotificationBar>
           ) : (
             <Box></Box>

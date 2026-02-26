@@ -137,3 +137,18 @@ src
 # 🧩 Backend Repository
 
 👉 https://github.com/taeyoungNew/simsim-talk-server
+
+# 🚧 Future Improvements
+
+## Phase 1 – モバイル・レスポンシブ最適化
+
+SNSサービスにおけるモバイル利用比率の高さを考慮し、
+レスポンシブUIの最適化を優先的に実施する予定です。
+
+### 1) モバイルレイアウトの再構成
+
+### 2) タッチ操作に配慮したインタラクション改善
+
+### 3) 小画面環境におけるフィード可読性の向上
+
+### 4) チャットUIのモバイル最適化

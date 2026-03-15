@@ -130,7 +130,7 @@ const alarmItem = forwardRef<HTMLInputElement, messageAlarmProps>(
           display: "flex",
           padding: "0.5rem 0.5rem",
           gap: 0.3,
-          height: "3.5rem",
+          height: { xs: "5rem", md: "3.5rem" },
           marginBottom: type === "TEXT" ? "1rem" : "",
           cursor: "pointer",
           backgroundColor: isRead

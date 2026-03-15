@@ -183,10 +183,10 @@ export const UserPageHeader = ({
               width: "7.5rem",
               position: "absolute",
               translate: "-50% -50%",
-              left: "10%",
-              top: "95%",
-              maxHeight: { xs: "3.5rem", md: "7.5rem" },
-              maxWidth: { xs: "3.5rem", md: "7.5rem" },
+              left: { xs: "18%", md: "10%" },
+              top: { xs: "100%", md: "95%" },
+              maxHeight: { xs: "4rem", md: "7.5rem" },
+              maxWidth: { xs: "4rem", md: "7.5rem" },
             }}
             profileUrl={profileUrl}
           />
@@ -195,8 +195,8 @@ export const UserPageHeader = ({
             <IconButton
               sx={{
                 position: "absolute",
-                left: "5.9rem",
-                top: "8.9rem",
+                left: { xs: "20%", md: "5.9rem" },
+                top: { xs: "9rem", md: "8.9rem" },
                 color: "white",
               }}
               onClick={(e) => handleOpenProfileImg(e)}
@@ -206,7 +206,7 @@ export const UserPageHeader = ({
                   border: `0.2px solid black`,
                   borderRadius: "70%",
                   backgroundColor: "#fff",
-                  fontSize: "1.5rem",
+                  fontSize: { xs: "1.2rem", md: "1.5rem" },
                   color: theme.palette.fontColor.assist,
                 }}
               />
@@ -217,9 +217,9 @@ export const UserPageHeader = ({
         </Box>
 
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ flex: 0.2 }}></Box>
+          <Box sx={{ flex: { xs: 0.25, md: 0.2 } }}></Box>
           <Box sx={{ flex: 0.7 }}>
-            <Typography sx={{ fontSize: "1.5rem" }}>
+            <Typography sx={{ fontSize: { xs: "1.2rem", md: "1.5rem" } }}>
               {userInfo.nickname}
             </Typography>
           </Box>
@@ -248,7 +248,7 @@ export const UserPageHeader = ({
       </Box>
       <Box
         sx={{
-          padding: "1rem",
+          padding: { xs: "0.5rem", md: "1rem" },
           display: "flex",
           flex: 1,
         }}
@@ -322,7 +322,12 @@ export const UserPageHeader = ({
               )}
             </Box>
           </Box>
-          <Box sx={{ flex: 2, display: "flex" }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -331,10 +336,14 @@ export const UserPageHeader = ({
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "start" }}>
-                <Typography sx={{ fontSize: "1.4rem" }}>{postCnt}</Typography>
+                <Typography sx={{ fontSize: { xs: "1.2rem", md: "1.4rem" } }}>
+                  {postCnt}
+                </Typography>
               </Box>
               <Box sx={{ display: "flex", justifyContent: "start" }}>
-                <Typography sx={{ fontSize: "0.8rem" }}>게시물</Typography>
+                <Typography sx={{ fontSize: { xs: "0.7rem", md: "0.8rem" } }}>
+                  게시물
+                </Typography>
               </Box>
             </Box>
             <Box
@@ -345,12 +354,14 @@ export const UserPageHeader = ({
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "start" }}>
-                <Typography sx={{ fontSize: "1.4rem" }}>
+                <Typography sx={{ fontSize: { xs: "1.2rem", md: "1.4rem" } }}>
                   {userInfo.followingCnt}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", justifyContent: "start" }}>
-                <Typography sx={{ fontSize: "0.8rem" }}>팔로잉</Typography>
+                <Typography sx={{ fontSize: { xs: "0.7rem", md: "0.8rem" } }}>
+                  팔로잉
+                </Typography>
               </Box>
             </Box>
             <Box
@@ -361,16 +372,16 @@ export const UserPageHeader = ({
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "start" }}>
-                <Typography sx={{ fontSize: "1.4rem" }}>
+                <Typography sx={{ fontSize: { xs: "1.2rem", md: "1.4rem" } }}>
                   {userInfo.followerCnt}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", justifyContent: "start" }}>
-                <Typography sx={{ fontSize: "0.8rem" }}>팔로워</Typography>
+                <Typography sx={{ fontSize: { xs: "0.7rem", md: "0.8rem" } }}>
+                  팔로워
+                </Typography>
               </Box>
             </Box>
-
-            <Box sx={{ flex: 1 }}></Box>
           </Box>
         </Box>
       </Box>

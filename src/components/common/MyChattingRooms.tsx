@@ -1,10 +1,14 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, SxProps, Theme } from "@mui/material";
 import { ChatRoomCard } from "../molecules/ChatRoomCard";
 import { useAppSelector } from "../../store/hook";
 import { RootState } from "../../store";
 import { BaseEmptyState } from "./empty/BaseEmptyState";
 
-export const MyChattingRooms = () => {
+interface MyChattingRoomsProps {
+  sx?: SxProps<Theme>;
+}
+
+export const MyChattingRooms = ({ sx, ...props }: MyChattingRoomsProps) => {
   const chatList = useAppSelector(
     (state: RootState) => state.ChatRoomSlice.chatList,
   );
@@ -12,14 +16,16 @@ export const MyChattingRooms = () => {
   return (
     <Box
       sx={{
-        height: "15rem",
+        height: "20rem",
         backgroundColor: (theme) => theme.palette.background.paper,
         borderRadius: "10px",
         padding: "0.8rem",
         display: "flex",
-        overflowX: "hidden",
+        overflow: "hidden",
         flexDirection: "column",
+        ...sx,
       }}
+      {...props}
     >
       <Typography
         sx={{
@@ -37,8 +43,8 @@ export const MyChattingRooms = () => {
           flexDirection: "column",
           gap: 0.8,
           flex: 1,
-          overflowY: "auto",
-          maxHeight: "inherit",
+          overflowY: "scroll",
+          height: "15rem",
           scrollbarGutter: "stable",
         }}
       >

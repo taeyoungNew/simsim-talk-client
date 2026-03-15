@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { SxProps, Theme } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { ChatQuote } from "../../assets/icons/ChatQuote";
@@ -36,7 +37,11 @@ import { theme } from "../../theme/theme";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import { logout } from "../../store/auth/authAction";
 
-export default function NavBar() {
+interface NavBarProps {
+  sx?: SxProps<Theme>;
+}
+
+export default function NavBar({ ...props }: NavBarProps) {
   const isLogin = useSelector((state: RootState) => state.User.isLogin);
   const userId = useSelector((state: RootState) => state.User.id);
   let msgAlarmCnt = useSelector(selectUnreadMsgAlarmCnt);
@@ -82,7 +87,7 @@ export default function NavBar() {
   };
 
   return (
-    <Box>
+    <Box {...props}>
       <AppBar position="static">
         <Toolbar
           sx={{
@@ -111,11 +116,6 @@ export default function NavBar() {
                 </Box>
               </Button>
             </NavLink>
-          </Box>
-          <Box sx={{ color: (theme) => theme.palette.primary.main }}>
-            {/* <form action="" method="post">
-              <NavSearchInput></NavSearchInput>
-            </form> */}
           </Box>
 
           {isLogin === true ? (

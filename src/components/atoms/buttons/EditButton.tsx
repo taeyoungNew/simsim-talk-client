@@ -7,7 +7,7 @@ const EditBottonFunc = styled(Button)(({ theme }) => ({
   borderRadius: "10px",
   border: `1px solid  ${theme.palette.primary.main}`,
   color: `${theme.palette.primary.main}`,
-  padding: "6px 16px",
+  // padding: "6px 16px",
   backgroundColor: theme.palette.background.paper,
   fontWeight: "bold",
   textTransform: "none",

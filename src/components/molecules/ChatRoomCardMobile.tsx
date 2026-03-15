@@ -11,7 +11,7 @@ import { selectUnreadMsgAlarmCntByRoom } from "../../store/messageAlarm/messageA
 import { formatRelativeTime } from "../../utils/formatRelativeTime";
 import { selectUserProfileById } from "../../store/user/usersEntitiesSelector";
 
-interface ChatRoomCardProps {
+interface ChatRoomCardMobileProps {
   chatRoomId: string;
   targetUserId: string;
   targetUserEmail: string;
@@ -21,7 +21,7 @@ interface ChatRoomCardProps {
   lastMessageAt: string;
 }
 
-export const ChatRoomCard = ({
+export const ChatRoomCardMobile = ({
   chatRoomId,
   lastMessageAt,
   lastMessagePreview,
@@ -29,7 +29,7 @@ export const ChatRoomCard = ({
   targetUserEmail,
   targetUserId,
   targetUserNickname,
-}: ChatRoomCardProps) => {
+}: ChatRoomCardMobileProps) => {
   const dispatch = useAppDispatch();
   const unreadMsgByChat = useSelector(
     selectUnreadMsgAlarmCntByRoom(chatRoomId),

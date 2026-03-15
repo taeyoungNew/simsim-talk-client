@@ -1,11 +1,15 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, SxProps, Theme } from "@mui/material";
 import { FriendsCard } from "../molecules/FriendCard";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { EmptyState } from "./empty/EmptyState";
 import { BaseEmptyState } from "./empty/BaseEmptyState";
 
-export const MyFriends = () => {
+interface MyFriendsProps {
+  sx?: SxProps<Theme>;
+}
+
+export const MyFriends = ({ sx, ...props }: MyFriendsProps) => {
   const friends = useSelector(
     (state: RootState) => state.UserRelationSlice.friends,
   );
@@ -15,16 +19,17 @@ export const MyFriends = () => {
   return (
     <Box
       sx={{
+        display: "flex",
         maxWidth: "100%",
-        height: "15rem",
+        height: "13rem",
         backgroundColor: (theme) => theme.palette.background.paper,
         borderRadius: "10px",
         padding: "0.8rem",
-        maxHeight: "10em",
         overflow: "hidden",
-        display: "flex",
         flexDirection: "column",
+        ...sx,
       }}
+      // {...props}
     >
       <Typography sx={{ fontSize: "1rem", fontWeight: "Bold" }}>
         friends
@@ -32,13 +37,12 @@ export const MyFriends = () => {
       <Box
         sx={{
           display: "flex",
-          flex: 1,
           flexDirection: "column",
           gap: 1,
-          overflow: "scroll",
-          overflowY: "auto",
+          flex: 1,
+          overflowY: "scroll",
+          height: "10rem",
           scrollbarGutter: "stable",
-          maxHeight: "inherit",
         }}
       >
         {friends.length > 0 ? (

@@ -100,10 +100,6 @@ export const WritePost = () => {
     };
   };
 
-  const live = () => {
-    console.log("live");
-  };
-
   return (
     <form onSubmit={handleSubmit(writePost)}>
       <Box
@@ -116,7 +112,13 @@ export const WritePost = () => {
           display: "flex",
         }}
       >
-        <Box sx={{ padding: "0", marginRight: "0.8rem" }}>
+        <Box
+          sx={{
+            display: { xs: "none", md: "block" },
+            padding: "0",
+            marginRight: "0.8rem",
+          }}
+        >
           <CustomAvatar profileUrl={profileUrl} sx={{ width: "2.5rem" }} />
         </Box>
         <Box sx={{ width: "100%" }}>
@@ -208,12 +210,6 @@ export const WritePost = () => {
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ display: "felx", alignItems: "center" }}>
-              {/* <Button
-                onClick={live}
-                sx={{ color: (theme) => theme.palette.fontColor.icon }}
-              >
-                <VideocamIcon></VideocamIcon>
-              </Button> */}
               <Button
                 ref={emojiButtonRef}
                 onClick={handleEmojiToggle}

@@ -9,13 +9,7 @@ interface chatContainerProps {
   nickname: string;
 }
 
-export const ChatContainer = (
-  {
-    // roomId,
-    // targetUserId,
-    // nickname,
-  },
-) => {
+export const ChatContainer = ({}) => {
   const opendChatRooms = useSelector(
     (state: RootState) => state.ChatRoomSlice.openedChatRooms,
   );
@@ -26,10 +20,10 @@ export const ChatContainer = (
   return (
     <Box
       sx={{
-        position: "fixed",
+        position: { md: "fixed" },
         right: "5%",
-        bottom: -5,
-        display: "flex",
+        bottom: { md: -5 },
+        display: { xs: "none", md: "flex" },
         alignItems: "flex-end",
         gap: "1%",
       }}

@@ -61,11 +61,6 @@ export const MainPage = () => {
     init();
   }, []);
 
-  // useEffect(() => {
-
-  //   getPosts(postLastId);
-  // }, []);
-
   useEffect(() => {
     if (!lastPostRef.current) return;
 

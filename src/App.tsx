@@ -22,6 +22,8 @@ import { SuggestedFriendsPage } from "./pages/suggestedFriends/SuggestedFriendsP
 import GlobalLoading from "./components/common/loading/GlobalLoading";
 import { loadingCntSelector } from "./store/loading/loadingSelector";
 import GlobalSnackbar from "./components/common/snackbar/GlobalSnackbar";
+import { AlarmsPage } from "./pages/AlarmsPage";
+import { ChattingsPage } from "./pages/ChattingsPage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -86,6 +88,22 @@ function App() {
                 element={
                   <AuthRoute>
                     <UserPageDetail />
+                  </AuthRoute>
+                }
+              />
+              <Route
+                path="/alarms"
+                element={
+                  <AuthRoute>
+                    <AlarmsPage />
+                  </AuthRoute>
+                }
+              />
+              <Route
+                path="/chattingList"
+                element={
+                  <AuthRoute>
+                    <ChattingsPage />
                   </AuthRoute>
                 }
               />

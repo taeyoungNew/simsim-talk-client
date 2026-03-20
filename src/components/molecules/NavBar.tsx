@@ -219,8 +219,8 @@ export default function NavBar({ ...props }: NavBarProps) {
                   },
                   paper: {
                     sx: {
-                      width: msgAlarms.length > 0 ? "16rem" : "18rem", // ⭐ 메뉴 전체 폭
-                      maxHeight: "14rem", // 스크롤 대비
+                      width: msgAlarms.length > 0 ? "16rem" : "18rem",
+                      maxHeight: "14rem",
                     },
                   },
                 }}

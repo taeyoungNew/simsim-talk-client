@@ -1,4 +1,14 @@
-import { Badge, Box, Button, IconButton, Typography } from "@mui/material";
+import {
+  Badge,
+  Box,
+  Button,
+  Drawer,
+  Fade,
+  IconButton,
+  Menu,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import PhotoOutlinedIcon from "@mui/icons-material/PhotoOutlined";
 import { CustomAvatar } from "../../assets/icons/Avatar";
 import EditButton from "../../components/atoms/buttons/EditButton";
@@ -27,6 +37,11 @@ import {
 } from "../../store/user/usersEntitiesSelector";
 import { ImageZoomDialog } from "../../components/common/ImageZoomDialog";
 import { chatThunk } from "../../store/chat/chatThunk";
+import React from "react";
+import { DynamicCustomButton } from "../../components/atoms/buttons/DynamicCustomButton";
+import { logoutThunk } from "../../store/auth/authThunk";
+import { logout } from "../../store/auth/authAction";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   onViewContent: React.Dispatch<
@@ -44,6 +59,7 @@ export const UserPageHeader = ({
   isMyPage,
   onViewContent,
 }: HeaderProps) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const profileImgInputRef = useRef<HTMLInputElement>(null);
   const backgroundImgInputRef = useRef<HTMLInputElement>(null);
@@ -90,6 +106,29 @@ export const UserPageHeader = ({
     backgroundImgInputRef.current?.click();
     e.stopPropagation();
   };
+
+  const [showUserPgMenuAnchorEl, setShowUserPgAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+
+  const handleOpenMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setShowUserPgAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const usePgMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
+    setShowUserPgAnchorEl(null);
+    e.stopPropagation();
+  };
+
+  const logoutFunc = async (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    await dispatch(logoutThunk({ userId: userId }));
+    setShowUserPgAnchorEl(null);
+    dispatch(logout());
+    navigate("/");
+  };
+
+  const usePgMenuOpen = Boolean(showUserPgMenuAnchorEl);
 
   const getBackgroundImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -175,6 +214,35 @@ export const UserPageHeader = ({
           backgroundRepeat: "no-repeat",
         }}
       >
+        {isMyPage ? (
+          <IconButton
+            onClick={handleOpenMenu}
+            sx={{
+              display: { xs: "flex", md: "none" },
+              position: "absolute",
+              width: "1.5rem",
+              top: "5%",
+              right: "4%",
+              translate: "50%, 50%",
+            }}
+          >
+            <MenuIcon
+              sx={{
+                color: theme.palette.fontColor.icon,
+              }}
+            />
+          </IconButton>
+        ) : (
+          <Box />
+        )}
+
+        <Drawer anchor="top" open={usePgMenuOpen} onClose={usePgMenuClose}>
+          <DynamicCustomButton
+            title="Logout"
+            onClick={logoutFunc}
+            color={theme.palette.error.main}
+          />
+        </Drawer>
         <Box>
           <CustomAvatar
             onClick={zoomInProfileImg}
@@ -253,8 +321,14 @@ export const UserPageHeader = ({
           flex: 1,
         }}
       >
-        <Box sx={{ flex: 0.2 }}></Box>
-        <Box sx={{ display: "flex", flex: 0.8, flexDirection: "column" }}>
+        <Box sx={{ flex: { xs: 0.3, md: 0.2 } }}></Box>
+        <Box
+          sx={{
+            display: "flex",
+            flex: { xs: 0.7, md: 0.8 },
+            flexDirection: "column",
+          }}
+        >
           <Box sx={{ display: "flex", flex: 1 }}>
             <Box
               sx={{

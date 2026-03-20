@@ -114,6 +114,10 @@ export const UserPageBody = ({
     await dispatch(editMyInfoThunk(editMyProfileInfo));
   };
 
+  const buttonFontSize = {
+    xs: "0.8rem",
+    md: "1rem",
+  };
   useEffect(() => {
     if (isEditMyInfoSuccess) {
       const timer = setTimeout(() => {
@@ -441,20 +445,20 @@ export const UserPageBody = ({
       >
         <PostButton
           onClick={() => onViewContent("userPosts")}
-          sx={{ fontSize: "1rem" }}
+          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
         ></PostButton>
         <UserInfoButton
           onClick={() => onViewContent("userInfo")}
-          sx={{ fontSize: "1rem" }}
+          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
         ></UserInfoButton>
         <DynamicCustomButton
           onClick={() => onViewContent("followings")}
-          fontSize="1rem"
+          fontSize={buttonFontSize}
           title={"팔로잉"}
         />
         <DynamicCustomButton
           onClick={() => onViewContent("followers")}
-          fontSize="1rem"
+          fontSize={buttonFontSize}
           title={"팔로워"}
         />
       </Box>

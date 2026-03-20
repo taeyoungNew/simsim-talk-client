@@ -11,7 +11,9 @@ export const PostButton = forwardRef<HTMLButtonElement, ButtonProps>(
       <PostButtonFunc
         ref={ref}
         {...props}
-        startIcon={<GridViewIcon></GridViewIcon>}
+        startIcon={
+          <GridViewIcon sx={{ display: { xs: "none" } }}></GridViewIcon>
+        }
       >
         게시물
       </PostButtonFunc>

@@ -5,8 +5,8 @@ import { styled } from "@mui/material";
 interface DynamicCustomButtonProps {
   title: string;
   icon?: ReactNode;
-  onClick?: () => void;
-  fontSize?: string;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  fontSize?: {};
   variant?: "text" | "outlined" | "contained";
   color?: string;
   disabled?: boolean;

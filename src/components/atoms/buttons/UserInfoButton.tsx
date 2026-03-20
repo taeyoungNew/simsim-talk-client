@@ -11,7 +11,9 @@ export const UserInfoButton = forwardRef<HTMLButtonElement, ButtonProps>(
       <UserInfoButtonFucn
         ref={ref}
         {...props}
-        startIcon={<ContactPageIcon></ContactPageIcon>}
+        startIcon={
+          <ContactPageIcon sx={{ display: { xs: "none" } }}></ContactPageIcon>
+        }
       >
         유저정보
       </UserInfoButtonFucn>

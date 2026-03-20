@@ -4,7 +4,6 @@ type Props = {
   size?: number;
   color?: String;
   fillColor?: string;
-  // strokeColir?: string;
 };
 
 export const HeartIcon = (props: Props) => {

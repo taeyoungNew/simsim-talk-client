@@ -72,7 +72,7 @@ export const userRelationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getFollowingsThunk.fulfilled, (state, action) => {
-        if (action.payload.length > 0) state.followins = action.payload;
+        if (action.payload?.length > 0) state.followins = action.payload;
         state.isLoading = false;
       })
       .addCase(getFollowingsThunk.rejected, (state, action) => {

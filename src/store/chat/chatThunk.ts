@@ -76,9 +76,14 @@ export const chatThunk = createAsyncThunk<
     } catch (error: any) {
       const errMessage = error.response.data.message;
       thunkAPI.dispatch(openSnackbar(errMessage));
+      console.log(
+        "error.response.data.message = ",
+        error.response.data.message,
+      );
+
       return thunkAPI.rejectWithValue({
         errorCode: error.response.data.errorCode,
-        status: error.response.data.status,
+        status: error.response.status,
         message: error.response.data.message,
       });
     }

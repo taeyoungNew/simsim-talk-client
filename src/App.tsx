@@ -38,6 +38,8 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log("사이트접속");
+
     // 소켓연결은 사이트에 접속했을때
     // 새로고침을 했을때만
     initSocket(dispatch);

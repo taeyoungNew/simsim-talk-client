@@ -30,19 +30,18 @@ function App() {
   const isLoading = useSelector(loadingCntSelector);
 
   const { id, initialized } = useSelector((state: RootState) => state.User);
+  const checkAuth = async () => {
+    await dispatch(authMeThunk());
+  };
   useEffect(() => {
-    const checkAuth = async () => {
-      await dispatch(authMeThunk());
-    };
     checkAuth();
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("사이트접속");
-
     // 소켓연결은 사이트에 접속했을때
     // 새로고침을 했을때만
     initSocket(dispatch);
+    checkAuth();
   }, []);
 
   useEffect(() => {

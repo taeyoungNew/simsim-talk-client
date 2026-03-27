@@ -25,7 +25,6 @@ export const initSocket = (dispatch: AppDispatch) => {
   }
 
   socket.on("connection", (msg) => {
-    console.log("initSocket");
     console.log(msg);
   });
   socket.on("socketReady", () => {
@@ -47,8 +46,6 @@ export const initSocket = (dispatch: AppDispatch) => {
     getMsgAlarmsSocket();
   });
   socket.on("emitAlarms", async (params) => {
-    console.log("emitAlarms event = ", params);
-
     dispatch(getmessageAlarmThunk(params));
   });
   socket.on("msgAlarmsRead", async (param) => {

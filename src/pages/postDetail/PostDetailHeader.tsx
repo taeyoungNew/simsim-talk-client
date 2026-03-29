@@ -126,19 +126,33 @@ export const PostDetailHeader = ({
             onClose={deletePostHandleClose}
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
+            sx={{ padding: { xs: "0.3rem" } }}
           >
             <Box sx={{ ...style }}>
-              <Typography color={theme.palette.primary.dark}>
+              <Typography
+                sx={{ fontSize: { xs: "0.6rem" } }}
+                color={theme.palette.primary.dark}
+              >
                 해당 게시물을 삭제하시겠습니까?
               </Typography>
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "flex-end",
+                  justifyContent: { xs: "center", md: "flex-end" },
                 }}
               >
-                <Button onClick={deletePost}>remove</Button>
-                <Button onClick={deletePostHandleClose}>Cancle</Button>
+                <Button
+                  sx={{ fontSize: { xs: "0.8rem" } }}
+                  onClick={deletePost}
+                >
+                  remove
+                </Button>
+                <Button
+                  sx={{ fontSize: { xs: "0.8rem" } }}
+                  onClick={deletePostHandleClose}
+                >
+                  Cancle
+                </Button>
               </Box>
             </Box>
           </Modal>

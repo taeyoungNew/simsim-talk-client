@@ -5,7 +5,7 @@ React + TypeScript をベースに、ユーザー中心のUXとリアルタイ�
 
 # 🚀 Demo
 
-👉 デモ: https://simsim-talk-client.vercel.app/
+👉 デモ: https://simsimtalk.com/
 
 # 👉 テストアカウント
 

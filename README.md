@@ -5,7 +5,7 @@ React + TypeScript 기반으로 사용자 중심 UX와 실시간 상호작용에
 
 # 🚀 Demo
 
-👉 배포 링크: https://simsim-talk-client.vercel.app/
+👉 배포 링크: https://simsimtalk.com/
 
 # 👉 테스트 계정:
 

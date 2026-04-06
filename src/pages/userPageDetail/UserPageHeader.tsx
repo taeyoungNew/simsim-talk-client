@@ -6,7 +6,10 @@ import {
   Fade,
   IconButton,
   Menu,
+  MenuItem,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import PhotoOutlinedIcon from "@mui/icons-material/PhotoOutlined";
@@ -42,6 +45,8 @@ import { DynamicCustomButton } from "../../components/atoms/buttons/DynamicCusto
 import { logoutThunk } from "../../store/auth/authThunk";
 import { logout } from "../../store/auth/authAction";
 import { useNavigate } from "react-router-dom";
+import CommonModal from "../../components/molecules/common/modal/CommonModal";
+import WithdrawConfirmModal from "../../components/organisms/user/WithdrawConfirmModal";
 
 interface HeaderProps {
   onViewContent: React.Dispatch<
@@ -59,6 +64,8 @@ export const UserPageHeader = ({
   isMyPage,
   onViewContent,
 }: HeaderProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const profileImgInputRef = useRef<HTMLInputElement>(null);
@@ -95,6 +102,7 @@ export const UserPageHeader = ({
   const zoomInProfileImg = (e: React.MouseEvent) => {
     setProfileOpen(true);
     e.stopPropagation();
+    userPgMenuClose;
   };
 
   const handleOpenProfileImg = (e: React.MouseEvent) => {
@@ -115,9 +123,26 @@ export const UserPageHeader = ({
     e.stopPropagation();
   };
 
-  const usePgMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
+  const [showUserPgDropMenuAnchorEl, setShowUserDropPgAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+
+  const handleOpenDropMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setShowUserDropPgAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const userPgMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
     setShowUserPgAnchorEl(null);
     e.stopPropagation();
+  };
+
+  const userPgDropMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
+    setShowUserDropPgAnchorEl(null);
+    e.stopPropagation();
+  };
+
+  const openWithdrawCofirmModal = async (e: React.MouseEvent<HTMLElement>) => {
+    setWithdrawConModalOpen(!withdrawConModalOpen);
   };
 
   const logoutFunc = async (e: React.MouseEvent<HTMLElement>) => {
@@ -125,10 +150,10 @@ export const UserPageHeader = ({
     await dispatch(logoutThunk({ userId: userId }));
     setShowUserPgAnchorEl(null);
     dispatch(logout());
-    navigate("/");
   };
 
-  const usePgMenuOpen = Boolean(showUserPgMenuAnchorEl);
+  const userPgDropMenuOpen = Boolean(showUserPgDropMenuAnchorEl);
+  const userPgMenuOpen = Boolean(showUserPgMenuAnchorEl);
 
   const getBackgroundImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -166,6 +191,8 @@ export const UserPageHeader = ({
     dispatch(changeMyProfileImgThunk(payment));
   };
 
+  const [withdrawConModalOpen, setWithdrawConModalOpen] = useState(false);
+
   const followingCencel = async () => {
     await dispatch(
       followingCencelThunk({
@@ -195,6 +222,11 @@ export const UserPageHeader = ({
         backgroundColor: (theme) => theme.palette.background.paper,
       }}
     >
+      <WithdrawConfirmModal
+        key={1}
+        open={withdrawConModalOpen}
+        onClose={() => setWithdrawConModalOpen(false)}
+      />
       <Box
         onClick={zoomInBackgroundImg}
         sx={{
@@ -216,18 +248,19 @@ export const UserPageHeader = ({
       >
         {isMyPage ? (
           <IconButton
-            onClick={handleOpenMenu}
+            onClick={isMobile ? handleOpenMenu : handleOpenDropMenu}
             sx={{
-              display: { xs: "flex", md: "none" },
+              // display: { xs: "flex", md: "none" },
+              display: "flex",
               position: "absolute",
-              width: "1.5rem",
               top: "5%",
-              right: "4%",
+              right: { xs: "3%", md: "0.5rem" },
               translate: "50%, 50%",
             }}
           >
             <MenuIcon
               sx={{
+                fontSize: "2rem",
                 color: theme.palette.fontColor.icon,
               }}
             />
@@ -235,8 +268,38 @@ export const UserPageHeader = ({
         ) : (
           <Box />
         )}
+        <Menu
+          id="basic-menu"
+          anchorEl={showUserPgDropMenuAnchorEl}
+          open={userPgDropMenuOpen}
+          onClose={userPgDropMenuClose}
+          slotProps={{
+            list: {
+              "aria-labelledby": "basic-button",
+            },
+          }}
+        >
+          <MenuItem
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+            onClick={userPgDropMenuClose}
+          >
+            <DynamicCustomButton
+              title="Logout"
+              onClick={logoutFunc}
+              color={theme.palette.error.main}
+            />
+            <DynamicCustomButton
+              title="Delete user"
+              onClick={openWithdrawCofirmModal}
+              color={theme.palette.error.dark}
+            />
+          </MenuItem>
+        </Menu>
 
-        <Drawer anchor="top" open={usePgMenuOpen} onClose={usePgMenuClose}>
+        <Drawer anchor="top" open={userPgMenuOpen} onClose={userPgMenuClose}>
           <DynamicCustomButton
             title="Logout"
             onClick={logoutFunc}

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signupUserThunk } from "./userSignupThunk";
+import { signupUserThunk } from "./userThunk";
 
 interface Error {
   status: number;

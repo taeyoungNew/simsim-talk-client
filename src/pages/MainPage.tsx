@@ -126,7 +126,7 @@ export const MainPage = () => {
         <Box height="inherit">
           <Grid2 container rowSpacing={3} direction="column">
             <Grid2 size={12}>
-              <ListItem
+              {/* <ListItem
                 sx={{
                   paddingTop: "0",
                   paddingLeft: "0",
@@ -143,7 +143,7 @@ export const MainPage = () => {
                   commentsCnt={0}
                   onlineUsers={onlineUsers}
                 ></PostCard>
-              </ListItem>
+              </ListItem> */}
               {getPostDatas.map((el, index) => {
                 const isLast = index === getPostDatas.length - 1;
 

@@ -33,9 +33,9 @@ function App() {
   const checkAuth = async () => {
     await dispatch(authMeThunk());
   };
-  useEffect(() => {
-    checkAuth();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, [dispatch]);
 
   useEffect(() => {
     // 소켓연결은 사이트에 접속했을때

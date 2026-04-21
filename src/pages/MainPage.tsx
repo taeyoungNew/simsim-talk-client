@@ -20,7 +20,18 @@ interface WritePost {
 }
 
 export const MainPage = () => {
-  // const isLogin = true;
+  const introduceContent = `こんにちは。
+「심심톡」を開発したミン・テヨンと申します。
+
+本サービスは個人プロジェクトとして開発したWebアプリケーションで、
+実際のサービス運用を想定して制作しています。
+
+ご利用いただく中でお気づきの点や改善のご意見がございましたら、
+メッセージまたは投稿にてお気軽にお知らせいただけますと幸いです。
+
+📧 Email: your-email@example.com
+
+💻 GitHub: https://github.com/your-id`;
   const isLogin = useSelector((state: RootState) => state.User.isLogin);
   const onlineUsers = useSelector(
     (state: RootState) => state.OnlineUsersSlice.ids,
@@ -115,6 +126,24 @@ export const MainPage = () => {
         <Box height="inherit">
           <Grid2 container rowSpacing={3} direction="column">
             <Grid2 size={12}>
+              {/* <ListItem
+                sx={{
+                  paddingTop: "0",
+                  paddingLeft: "0",
+                  paddingRight: "0",
+                }}
+              >
+                <PostCard
+                  id={9999}
+                  userId={"939a8a88-10c6-4a55-8251-bb4ba9ea461c"}
+                  contents={introduceContent}
+                  userNickname={"dndbxhd10"}
+                  likeCnt={0}
+                  isLiked={false}
+                  commentsCnt={0}
+                  onlineUsers={onlineUsers}
+                ></PostCard>
+              </ListItem> */}
               {getPostDatas.map((el, index) => {
                 const isLast = index === getPostDatas.length - 1;
 

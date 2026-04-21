@@ -49,3 +49,12 @@ export const editMyInfo = async (editMyInfo: editMyInfoReq) => {
     },
   );
 };
+
+export const deleteUserAPI = async (password: string) => {
+  return await axios.delete(
+    `${import.meta.env.VITE_API_BASE}user/delete-user/${password}`,
+    {
+      withCredentials: true,
+    },
+  );
+};

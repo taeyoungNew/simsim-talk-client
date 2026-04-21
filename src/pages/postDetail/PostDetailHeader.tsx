@@ -12,6 +12,7 @@ import {
   followingThunk,
 } from "../../store/follow/followThunk";
 import { selectUserProfileById } from "../../store/user/usersEntitiesSelector";
+import DeletePostConfirmModal from "../../components/organisms/post/DeletePostConfirmModal";
 
 const style = {
   position: "absolute",
@@ -95,6 +96,8 @@ export const PostDetailHeader = ({
     );
   };
 
+  const [deletePostModalOpen, setDeletePostModalOpen] = useState(false);
+
   return (
     <>
       <Box>
@@ -121,7 +124,14 @@ export const PostDetailHeader = ({
             <Box></Box>
           )}
           {/* 게시물삭제알림창 */}
-          <Modal
+          <DeletePostConfirmModal
+            postId={0}
+            open={openDeletePostModal}
+            from={from}
+            isMyPage={isMyPage}
+            onClose={() => setOpenDeletePostModal(false)}
+          />
+          {/* <Modal
             open={openDeletePostModal}
             onClose={deletePostHandleClose}
             aria-labelledby="child-modal-title"
@@ -155,7 +165,7 @@ export const PostDetailHeader = ({
                 </Button>
               </Box>
             </Box>
-          </Modal>
+          </Modal> */}
         </Box>
 
         <Box

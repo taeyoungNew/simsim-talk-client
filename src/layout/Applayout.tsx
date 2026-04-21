@@ -7,7 +7,7 @@ import { RootState } from "../store";
 import { useAppDispatch } from "../store/hook";
 import { useEffect } from "react";
 import { resetUserError } from "../store/auth/authSlice";
-import { resetSignupError } from "../store/user/userSignupSlice";
+import { resetSignupError } from "../store/user/userSlice";
 import { resetEditMyInfoError } from "../store/user/userInfoSlice";
 import { ChatContainer } from "../components/organisms/chat/ChatContainer";
 import { MyFriends } from "../components/common/MyFriends";

@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { userSlice } from "./auth/authSlice";
 import { getAllPostsSlice } from "./post/allPostsSlice";
 import { getPostDetailSlice } from "./post/postDetailSlice";
-import { signupSlice } from "./user/userSignupSlice";
+import { signupSlice } from "./user/userSlice";
 import { getUserPostsSlice } from "./post/userPostsSlice";
 import { userInfoSlice } from "./user/userInfoSlice";
 import { onlineUsersSlice } from "./onlineUsers/onlineUsersSlice";

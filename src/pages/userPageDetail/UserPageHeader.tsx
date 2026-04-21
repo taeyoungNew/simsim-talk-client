@@ -224,6 +224,7 @@ export const UserPageHeader = ({
     >
       <WithdrawConfirmModal
         key={1}
+        userId={userId}
         open={withdrawConModalOpen}
         onClose={() => setWithdrawConModalOpen(false)}
       />
@@ -250,7 +251,6 @@ export const UserPageHeader = ({
           <IconButton
             onClick={isMobile ? handleOpenMenu : handleOpenDropMenu}
             sx={{
-              // display: { xs: "flex", md: "none" },
               display: "flex",
               position: "absolute",
               top: "5%",

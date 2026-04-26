@@ -143,6 +143,7 @@ export const UserPageHeader = ({
 
   const openWithdrawCofirmModal = async (e: React.MouseEvent<HTMLElement>) => {
     setWithdrawConModalOpen(!withdrawConModalOpen);
+    e.stopPropagation();
   };
 
   const logoutFunc = async (e: React.MouseEvent<HTMLElement>) => {
@@ -247,6 +248,7 @@ export const UserPageHeader = ({
           backgroundRepeat: "no-repeat",
         }}
       >
+        {/*  데스크탑상의 유저페이지메뉴 */}
         {isMyPage ? (
           <IconButton
             onClick={isMobile ? handleOpenMenu : handleOpenDropMenu}
@@ -292,18 +294,24 @@ export const UserPageHeader = ({
               color={theme.palette.error.main}
             />
             <DynamicCustomButton
-              title="Delete user"
+              title="Delete Account"
               onClick={openWithdrawCofirmModal}
               color={theme.palette.error.dark}
             />
           </MenuItem>
         </Menu>
 
+        {/* 모바일상의 유저페이지메뉴 */}
         <Drawer anchor="top" open={userPgMenuOpen} onClose={userPgMenuClose}>
           <DynamicCustomButton
             title="Logout"
             onClick={logoutFunc}
             color={theme.palette.error.main}
+          />
+          <DynamicCustomButton
+            title="Delete Account"
+            onClick={openWithdrawCofirmModal}
+            color={theme.palette.error.dark}
           />
         </Drawer>
         <Box>

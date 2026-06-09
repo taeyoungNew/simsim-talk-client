@@ -102,7 +102,7 @@ export const UserPageHeader = ({
   const zoomInProfileImg = (e: React.MouseEvent) => {
     setProfileOpen(true);
     e.stopPropagation();
-    userPgMenuClose;
+    handleUserPgMenuClose;
   };
 
   const handleOpenProfileImg = (e: React.MouseEvent) => {
@@ -118,26 +118,56 @@ export const UserPageHeader = ({
   const [showUserPgMenuAnchorEl, setShowUserPgAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
+  const [showOtherUserPgMenuAnchorEl, setShowOtherUserPgMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+
+  // 모바일메뉴
+  // 내페이지메뉴
   const handleOpenMenu = (e: React.MouseEvent<HTMLElement>) => {
     setShowUserPgAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+  const handleUserPgMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
+    setShowUserPgAnchorEl(null);
+    e.stopPropagation();
+  };
+
+  // 타유저페이지메뉴
+  const handleOpenOtherUserMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserPgMenuAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const handleOtherUserMenuClose = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserPgMenuAnchorEl(null);
     e.stopPropagation();
   };
 
   const [showUserPgDropMenuAnchorEl, setShowUserDropPgAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
+  const [showOtherUserPgDropMenuAnchorEl, setShowOtherUserDropPgMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+
+  // 웹사이트메뉴
+  // 내페이지메뉴
   const handleOpenDropMenu = (e: React.MouseEvent<HTMLElement>) => {
     setShowUserDropPgAnchorEl(e.currentTarget);
+
     e.stopPropagation();
   };
-
-  const userPgMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
-    setShowUserPgAnchorEl(null);
-    e.stopPropagation();
-  };
-
   const userPgDropMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
     setShowUserDropPgAnchorEl(null);
+    e.stopPropagation();
+  };
+  // 타유저페이지메뉴
+  const handleOpenOtherUserDropMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserDropPgMenuAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const handleOtherUserDropMenuClose = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserDropPgMenuAnchorEl(null);
     e.stopPropagation();
   };
 
@@ -155,6 +185,8 @@ export const UserPageHeader = ({
 
   const userPgDropMenuOpen = Boolean(showUserPgDropMenuAnchorEl);
   const userPgMenuOpen = Boolean(showUserPgMenuAnchorEl);
+  const otherUserPgDropMenuOpen = Boolean(showOtherUserPgDropMenuAnchorEl);
+  const otherUserPgMenuOpen = Boolean(showOtherUserPgMenuAnchorEl);
 
   const getBackgroundImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -212,6 +244,19 @@ export const UserPageHeader = ({
     }
   }, [userId]);
 
+  // Todo 타유저페이지의 메뉴와 내페이지의 메뉴를 구분
+  const openMenu = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    if (isMyPage) {
+      return isMobile ? handleOpenMenu(e) : handleOpenDropMenu(e);
+    } else {
+      return isMobile
+        ? handleOpenOtherUserMenu(e)
+        : handleOpenOtherUserDropMenu(e);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -249,27 +294,24 @@ export const UserPageHeader = ({
         }}
       >
         {/*  데스크탑상의 유저페이지메뉴 */}
-        {isMyPage ? (
-          <IconButton
-            onClick={isMobile ? handleOpenMenu : handleOpenDropMenu}
+        <IconButton
+          onClick={openMenu}
+          sx={{
+            display: "flex",
+            position: "absolute",
+            top: "5%",
+            right: { xs: "3%", md: "0.5rem" },
+            translate: "50%, 50%",
+          }}
+        >
+          <MenuIcon
             sx={{
-              display: "flex",
-              position: "absolute",
-              top: "5%",
-              right: { xs: "3%", md: "0.5rem" },
-              translate: "50%, 50%",
+              fontSize: "2rem",
+              color: theme.palette.fontColor.icon,
             }}
-          >
-            <MenuIcon
-              sx={{
-                fontSize: "2rem",
-                color: theme.palette.fontColor.icon,
-              }}
-            />
-          </IconButton>
-        ) : (
-          <Box />
-        )}
+          />
+        </IconButton>
+
         <Menu
           id="basic-menu"
           anchorEl={showUserPgDropMenuAnchorEl}
@@ -301,8 +343,39 @@ export const UserPageHeader = ({
           </MenuItem>
         </Menu>
 
+        {/* 데스크탑의의 타유저페이지의 드랍메뉴 */}
+        <Menu
+          id="basic-menu"
+          anchorEl={showOtherUserPgDropMenuAnchorEl}
+          open={otherUserPgDropMenuOpen}
+          onClose={handleOtherUserDropMenuClose}
+          slotProps={{
+            list: {
+              "aria-labelledby": "basic-button",
+            },
+          }}
+        >
+          <MenuItem
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+            onClick={handleOtherUserDropMenuClose}
+          >
+            <DynamicCustomButton
+              title="Block Account"
+              onClick={openWithdrawCofirmModal}
+              color={theme.palette.error.dark}
+            />
+          </MenuItem>
+        </Menu>
+
         {/* 모바일상의 유저페이지메뉴 */}
-        <Drawer anchor="top" open={userPgMenuOpen} onClose={userPgMenuClose}>
+        <Drawer
+          anchor="top"
+          open={userPgMenuOpen}
+          onClose={handleUserPgMenuClose}
+        >
           <DynamicCustomButton
             title="Logout"
             onClick={logoutFunc}
@@ -310,6 +383,18 @@ export const UserPageHeader = ({
           />
           <DynamicCustomButton
             title="Delete Account"
+            onClick={openWithdrawCofirmModal}
+            color={theme.palette.error.dark}
+          />
+        </Drawer>
+        {/* 모바일상의 타유저페이지메뉴 */}
+        <Drawer
+          anchor="top"
+          open={otherUserPgMenuOpen}
+          onClose={handleOtherUserMenuClose}
+        >
+          <DynamicCustomButton
+            title="Block Account"
             onClick={openWithdrawCofirmModal}
             color={theme.palette.error.dark}
           />

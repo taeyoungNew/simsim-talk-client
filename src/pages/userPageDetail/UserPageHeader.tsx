@@ -47,6 +47,7 @@ import { logout } from "../../store/auth/authAction";
 import { useNavigate } from "react-router-dom";
 import CommonModal from "../../components/molecules/common/modal/CommonModal";
 import WithdrawConfirmModal from "../../components/organisms/user/WithdrawConfirmModal";
+import { blockUserThunk } from "../../store/blocked/blockThunk";
 
 interface HeaderProps {
   onViewContent: React.Dispatch<
@@ -181,6 +182,12 @@ export const UserPageHeader = ({
     await dispatch(logoutThunk({ userId: userId }));
     setShowUserPgAnchorEl(null);
     dispatch(logout());
+  };
+
+  const blockUserFunc = async (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    await dispatch(blockUserThunk({ blockUserId: userId }));
+    setShowOtherUserPgMenuAnchorEl(null);
   };
 
   const userPgDropMenuOpen = Boolean(showUserPgDropMenuAnchorEl);
@@ -364,7 +371,7 @@ export const UserPageHeader = ({
           >
             <DynamicCustomButton
               title="Block Account"
-              onClick={openWithdrawCofirmModal}
+              onClick={blockUserFunc}
               color={theme.palette.error.dark}
             />
           </MenuItem>
@@ -395,7 +402,7 @@ export const UserPageHeader = ({
         >
           <DynamicCustomButton
             title="Block Account"
-            onClick={openWithdrawCofirmModal}
+            onClick={blockUserFunc}
             color={theme.palette.error.dark}
           />
         </Drawer>

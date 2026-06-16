@@ -10,8 +10,7 @@ interface UnBlockUserType {
 
 export const blockUserAPI = async ({ blockUserId }: BlockUserType) => {
   return await axios.post(
-    `${import.meta.env.VITE_API_BASE}block-user/`,
-    { blockUserId },
+    `${import.meta.env.VITE_API_BASE}block-user/${blockUserId}`,
     { withCredentials: true },
   );
 };

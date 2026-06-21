@@ -40,6 +40,7 @@ interface UserInfoInitialState {
   successMessage: string;
   id?: string;
   profileUrl: string;
+  blockStatus: boolean;
   nickname: string;
   username: string;
   aboutMe: string;
@@ -61,6 +62,7 @@ const userInfoInitialState: UserInfoInitialState = {
   id: "",
   nickname: "",
   username: "",
+  blockStatus: false,
   aboutMe: "",
   age: 0,
   followerCnt: 0,
@@ -284,7 +286,11 @@ export const userInfoSlice = createSlice({
       .addCase(changeMyProfileImgThunk.rejected, (state, action) => {
         state.isLoading = false;
       });
-
+    // 차단 차단해제
+    // builder
+    // .addCase(followingThunk.pending, (state) => {
+    //     state.isLoading = true;
+    //   })
     builder
       .addCase(userInfoThunk.pending, (state) => {
         state.isLoading = true;

@@ -47,7 +47,10 @@ import { logout } from "../../store/auth/authAction";
 import { useNavigate } from "react-router-dom";
 import CommonModal from "../../components/molecules/common/modal/CommonModal";
 import WithdrawConfirmModal from "../../components/organisms/user/WithdrawConfirmModal";
-import { blockUserThunk } from "../../store/blocked/blockThunk";
+import {
+  blockUserThunk,
+  unBlockUserThunk,
+} from "../../store/blocked/blockThunk";
 
 interface HeaderProps {
   onViewContent: React.Dispatch<
@@ -96,6 +99,7 @@ export const UserPageHeader = ({
       );
     }, 0);
   };
+  const blockStatus = isMyPage ? userInfo.blockStatus : null;
   const zoomInBackgroundImg = async (e: React.MouseEvent) => {
     await setBackgroundOpen(true);
     e.stopPropagation();
@@ -187,6 +191,12 @@ export const UserPageHeader = ({
   const blockUserFunc = async (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     await dispatch(blockUserThunk({ blockUserId: userId }));
+    setShowOtherUserPgMenuAnchorEl(null);
+  };
+
+  const unBlockUserFunc = async (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    await dispatch(unBlockUserThunk({ unBlockUserId: userId }));
     setShowOtherUserPgMenuAnchorEl(null);
   };
 
@@ -369,11 +379,19 @@ export const UserPageHeader = ({
             }}
             onClick={handleOtherUserDropMenuClose}
           >
-            <DynamicCustomButton
-              title="Block Account"
-              onClick={blockUserFunc}
-              color={theme.palette.error.dark}
-            />
+            {blockStatus ? (
+              <DynamicCustomButton
+                title="UnBlock Account"
+                onClick={unBlockUserFunc}
+                color={theme.palette.error.dark}
+              />
+            ) : (
+              <DynamicCustomButton
+                title="Block Account"
+                onClick={blockUserFunc}
+                color={theme.palette.error.dark}
+              />
+            )}
           </MenuItem>
         </Menu>
 
@@ -400,11 +418,19 @@ export const UserPageHeader = ({
           open={otherUserPgMenuOpen}
           onClose={handleOtherUserMenuClose}
         >
-          <DynamicCustomButton
-            title="Block Account"
-            onClick={blockUserFunc}
-            color={theme.palette.error.dark}
-          />
+          {blockStatus ? (
+            <DynamicCustomButton
+              title="Block Account"
+              onClick={blockUserFunc}
+              color={theme.palette.error.dark}
+            />
+          ) : (
+            <DynamicCustomButton
+              title="Block Account"
+              onClick={blockUserFunc}
+              color={theme.palette.error.dark}
+            />
+          )}
         </Drawer>
         <Box>
           <CustomAvatar

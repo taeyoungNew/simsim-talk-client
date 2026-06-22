@@ -7,6 +7,7 @@ import {
 } from "./userInfoThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
 import { logout } from "../auth/authAction";
+import { blockUserThunk, unBlockUserThunk } from "../blocked/blockThunk";
 
 interface Error {
   status: number;
@@ -287,10 +288,31 @@ export const userInfoSlice = createSlice({
         state.isLoading = false;
       });
     // 차단 차단해제
-    // builder
-    // .addCase(followingThunk.pending, (state) => {
-    //     state.isLoading = true;
-    //   })
+    builder
+      .addCase(blockUserThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(blockUserThunk.fulfilled, (state) => {
+        state.isLoading = false;
+        state.blockStatus = true;
+      })
+      .addCase(blockUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as Error;
+      })
+      .addCase(unBlockUserThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(unBlockUserThunk.fulfilled, (state) => {
+        state.isLoading = false;
+        state.blockStatus = false;
+      })
+      .addCase(unBlockUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+
+        state.error = action.payload as Error;
+      });
+    // 타유저의 정보가져오기
     builder
       .addCase(userInfoThunk.pending, (state) => {
         state.isLoading = true;
@@ -306,6 +328,7 @@ export const userInfoSlice = createSlice({
         state.followerCnt = action.payload.followerCnt;
         state.followingCnt = action.payload.followingCnt;
         state.postCnt = action.payload?.postCnt;
+        state.blockStatus = action.payload?.blockStatus;
 
         for (let idx = 0; idx < action.payload?.Followers.length; idx++) {
           state.followers.push({

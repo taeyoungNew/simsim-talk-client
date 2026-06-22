@@ -99,7 +99,8 @@ export const UserPageHeader = ({
       );
     }, 0);
   };
-  const blockStatus = isMyPage ? userInfo.blockStatus : null;
+  const blockStatus = userInfo.blockStatus;
+
   const zoomInBackgroundImg = async (e: React.MouseEvent) => {
     await setBackgroundOpen(true);
     e.stopPropagation();
@@ -420,8 +421,8 @@ export const UserPageHeader = ({
         >
           {blockStatus ? (
             <DynamicCustomButton
-              title="Block Account"
-              onClick={blockUserFunc}
+              title="Unblock Account"
+              onClick={unBlockUserFunc}
               color={theme.palette.error.dark}
             />
           ) : (

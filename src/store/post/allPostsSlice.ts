@@ -47,6 +47,9 @@ export const getAllPostsSlice = createSlice({
   initialState: getAllPostsInitialState,
 
   reducers: {
+    resetPosts: (state) => {
+      state.posts = [];
+    },
     setPosts: (state, action) => {
       const posts: Post[] = action.payload.posts;
       for (let idx = 0; idx < posts.length; idx++) {
@@ -175,4 +178,5 @@ export const getAllPostsSlice = createSlice({
   },
 });
 
-export const { updatePostCommentCnt, resetLiked } = getAllPostsSlice.actions;
+export const { updatePostCommentCnt, resetLiked, resetPosts } =
+  getAllPostsSlice.actions;

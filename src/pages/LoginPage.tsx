@@ -9,13 +9,14 @@ import { loginThunk } from "../store/auth/authThunk";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { ErrNotificationBar } from "../components/atoms/notifications/ErrNotificationBar";
-import { resetLiked } from "../store/post/allPostsSlice";
+import { resetLiked, resetPosts } from "../store/post/allPostsSlice";
 import {
   getFollowingsThunk,
   getFriendsThunk,
 } from "../store/userRelation/userRelationThunk";
 import { getChatsThunk } from "../store/chat/chatThunk";
 import { getAllAlarmByUserThunk } from "../store/alarm/alarmThunk";
+import { getPostsThunk, refreshPostsThunk } from "../store/post/allPostsThunk";
 
 type LoginType = {
   email: string;
@@ -24,6 +25,9 @@ type LoginType = {
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
+  const isLoginSuccess = useSelector(
+    (state: RootState) => state.User.isLoginSuccess,
+  );
   const isLoginError = useSelector((state: RootState) => state.User.error);
   const loginErrMsg = useSelector(
     (state: RootState) => state.User.error?.message,
@@ -39,11 +43,13 @@ export const LoginPage = () => {
 
   const login = async (data: LoginType) => {
     dispatch(resetLiked());
+
     await dispatch(loginThunk(data));
     await dispatch(getFollowingsThunk());
     await dispatch(getFriendsThunk());
     await dispatch(getChatsThunk());
     await dispatch(getAllAlarmByUserThunk());
+    if (isLoginSuccess) await dispatch(refreshPostsThunk());
   };
   return (
     <>

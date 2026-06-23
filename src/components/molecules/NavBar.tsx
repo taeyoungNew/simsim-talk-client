@@ -36,6 +36,7 @@ import { EmptyState } from "../common/empty/EmptyState";
 import { theme } from "../../theme/theme";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import { logout } from "../../store/auth/authAction";
+import { refreshPostsThunk } from "../../store/post/allPostsThunk";
 
 interface NavBarProps {
   sx?: SxProps<Theme>;
@@ -68,6 +69,8 @@ export default function NavBar({ ...props }: NavBarProps) {
     const keepUserId = userId;
     await dispatch(logoutThunk({ userId: keepUserId }));
     dispatch(logout());
+
+    await dispatch(refreshPostsThunk());
   };
 
   const showMsgAlarms = async (event: React.MouseEvent<HTMLElement>) => {

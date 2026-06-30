@@ -43,6 +43,7 @@ export const LoginPage = () => {
 
   const login = async (data: LoginType) => {
     dispatch(resetLiked());
+    dispatch(resetPosts());
 
     await dispatch(loginThunk(data));
     await dispatch(getFollowingsThunk());

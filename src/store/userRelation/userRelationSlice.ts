@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getFollowingsThunk, getFriendsThunk } from "./userRelationThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
 import { logout } from "../auth/authAction";
+import { blockUserThunk } from "../blocked/blockThunk";
 
 interface Error {
   status: number;
@@ -94,6 +95,7 @@ export const userRelationSlice = createSlice({
       .addCase(followingThunk.rejected, (state, action) => {
         state.isLoading = false;
       })
+      // 팔로잉취소했을때 팔로잉리스트에서 제외하기
       .addCase(followingCencelThunk.pending, (state, _) => {
         state.isLoading = false;
       })
@@ -106,6 +108,20 @@ export const userRelationSlice = createSlice({
       })
       .addCase(followingCencelThunk.rejected, (state, action) => {
         state.isLoading = true;
+      })
+      // 차단했을때 친구, 팔로잉리스트에서 제외하기
+      .addCase(blockUserThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(blockUserThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // const blockedId = action.payload.data.blockedId;
+        // state.followins = state.followins.filter(
+        //   (el) => el.followingId !== blockedId,
+        // );
+      })
+      .addCase(blockUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
       });
   },
 });

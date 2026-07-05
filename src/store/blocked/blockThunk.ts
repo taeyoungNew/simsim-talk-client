@@ -17,12 +17,12 @@ interface Error {
 }
 
 export const blockUserThunk = createAsyncThunk<
-  { message: string },
+  { message: string; data: { blockedId: string } },
   BlockUserType,
   { rejectValue: Error }
 >("block/blockUser", async ({ blockUserId }, thunkAPI) => {
   try {
-    const blockUserResult = (await blockUserAPI({ blockUserId })).data.data;
+    const blockUserResult = (await blockUserAPI({ blockUserId })).data;
 
     return blockUserResult;
   } catch (error: any) {

@@ -72,6 +72,9 @@ export const UserPageHeader = ({
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isBlocked = useSelector(
+    (state: RootState) => state.UserInfo.blockStatus,
+  );
   const profileImgInputRef = useRef<HTMLInputElement>(null);
   const backgroundImgInputRef = useRef<HTMLInputElement>(null);
   const userInfo = useSelector((state: RootState) => state.UserInfo);
@@ -561,17 +564,22 @@ export const UserPageHeader = ({
                         }}
                         onClick={followingCencel}
                       >
-                        팔로잉중
+                        팔로잉 중
                       </Button>
                     ) : (
                       <Button
+                        disabled={isBlocked}
                         sx={{
                           background: (theme) => theme.palette.primary.main,
                           color: (theme) => theme.palette.background.paper,
+                          "&.Mui-disabled": {
+                            backgroundColor: "#bdbdbd",
+                            color: "#666",
+                          },
                         }}
                         onClick={following}
                       >
-                        팔로잉
+                        {isBlocked ? "차단 중" : "팔로우"}
                       </Button>
                     )}
                   </Box>

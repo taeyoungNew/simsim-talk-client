@@ -294,6 +294,7 @@ export const userInfoSlice = createSlice({
       })
       .addCase(blockUserThunk.fulfilled, (state) => {
         state.isLoading = false;
+        state.isFollowinged = false;
         state.blockStatus = true;
       })
       .addCase(blockUserThunk.rejected, (state, action) => {

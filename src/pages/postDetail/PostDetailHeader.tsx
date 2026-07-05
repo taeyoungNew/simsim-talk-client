@@ -125,7 +125,7 @@ export const PostDetailHeader = ({
           )}
           {/* 게시물삭제알림창 */}
           <DeletePostConfirmModal
-            postId={0}
+            postId={postId}
             open={openDeletePostModal}
             from={from}
             isMyPage={isMyPage}

@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { getPostsThunk } from "./allPostsThunk";
+import { createPostThunk, getPostsThunk } from "./allPostsThunk";
 import { deletePostThunk, modifyPostThunk } from "./postDetailThunk";
 
 import { postLikeCencelThunk, postLikeThunk } from "../like/postLikeThunk";
@@ -62,7 +62,12 @@ export const getAllPostsSlice = createSlice({
       });
     },
     addPostToAllPosts: (state, action) => {
-      state.posts.unshift(action.payload);
+      // console.log("addPostToAllPosts = ", action.payload);
+      // state.posts.unshift(
+      //   { commentCnt: action.payload.Comments.length },
+      //   ...action.payload,
+      // );
+      // state.posts.unshift(action.payload);
     },
     updatePostCommentCnt: (state, action) => {
       const { postId, delta, role } = action.payload;
@@ -109,8 +114,25 @@ export const getAllPostsSlice = createSlice({
         }
 
         state.isLoading = false;
+      })
+      .addCase(getPostsThunk.rejected, (state, action) => {
+        state.isLoading = false;
       });
+    builder
+      .addCase(createPostThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(createPostThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
 
+        state.posts.unshift({
+          ...action.payload,
+          commentCnt: action.payload.Comments.length,
+        });
+      })
+      .addCase(createPostThunk.rejected, (state, action) => {
+        state.isLoading = false;
+      });
     builder
       .addCase(modifyPostThunk.pending, (state, action) => {
         state.isLoading = true;

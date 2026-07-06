@@ -115,10 +115,10 @@ export const userRelationSlice = createSlice({
       })
       .addCase(blockUserThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        // const blockedId = action.payload.data.blockedId;
-        // state.followins = state.followins.filter(
-        //   (el) => el.followingId !== blockedId,
-        // );
+        const blockedId = action.payload.data.blockedId;
+        state.followins = state.followins.filter(
+          (el) => el.followingId !== blockedId,
+        );
       })
       .addCase(blockUserThunk.rejected, (state, action) => {
         state.isLoading = false;

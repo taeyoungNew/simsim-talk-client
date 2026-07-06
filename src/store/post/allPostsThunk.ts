@@ -81,8 +81,8 @@ export const createPostThunk = createAsyncThunk<
   try {
     const newPost = (await createPostAPI(content)).data.data;
 
-    thunkAPI.dispatch(getAllPostsSlice.actions.addPostToAllPosts(newPost));
-    thunkAPI.dispatch(getUserPostsSlice.actions.addPostToUserPosts(newPost));
+    // thunkAPI.dispatch(getAllPostsSlice.actions.addPostToAllPosts(newPost));
+    // thunkAPI.dispatch(getUserPostsSlice.actions.addPostToUserPosts(newPost));
     return newPost;
   } catch (error: any) {
     const errMessage = error.response.data.message;

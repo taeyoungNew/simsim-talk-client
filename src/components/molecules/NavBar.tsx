@@ -71,6 +71,7 @@ export default function NavBar({ ...props }: NavBarProps) {
     dispatch(logout());
 
     await dispatch(refreshPostsThunk());
+    await navigate("/");
   };
 
   const showMsgAlarms = async (event: React.MouseEvent<HTMLElement>) => {

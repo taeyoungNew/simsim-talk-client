@@ -292,10 +292,32 @@ export const userInfoSlice = createSlice({
       .addCase(blockUserThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(blockUserThunk.fulfilled, (state) => {
+      .addCase(blockUserThunk.fulfilled, (state, action) => {
+        const myId = action.payload.data.myId;
+        const blockedId = action.payload.data.blockedId;
         state.isLoading = false;
         state.isFollowinged = false;
         state.blockStatus = true;
+        const isFollowing = state.followers.find((el) => el.id === myId);
+        if (state.id === blockedId) {
+          if (isFollowing) {
+            state.followerCnt -= 1;
+            state.followers = state.followers.filter((el) => el.id !== myId);
+            state.isFollowinged = false;
+          }
+        } else {
+          // 타유저페이지에서 타유저의 팔로워나 팔로잉을 팔로잉 팔로잉취소를 했을경우
+          // 버튼만 변경한다.
+          state.isFollowingedIds = state.isFollowingedIds.filter(
+            (el) => el !== blockedId,
+          );
+          state.followers.forEach((el) => {
+            if (el.id === blockedId) el.isFollowing = false;
+          });
+          state.followings.forEach((el) => {
+            if (el.id === blockedId) el.isFollowing = false;
+          });
+        }
       })
       .addCase(blockUserThunk.rejected, (state, action) => {
         state.isLoading = false;

@@ -17,7 +17,7 @@ interface Error {
 }
 
 export const blockUserThunk = createAsyncThunk<
-  { message: string; data: { blockedId: string } },
+  { message: string; data: { blockedId: string; myId: string } },
   BlockUserType,
   { rejectValue: Error }
 >("block/blockUser", async ({ blockUserId }, thunkAPI) => {

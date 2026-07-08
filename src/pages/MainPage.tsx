@@ -39,6 +39,7 @@ export const MainPage = () => {
   const getPostDatas = useSelector(
     (state: RootState) => state.GetAllPosts.posts,
   );
+
   const dispatch = useAppDispatch();
 
   const isLoading = useSelector(

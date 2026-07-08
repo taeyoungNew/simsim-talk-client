@@ -47,6 +47,10 @@ import { logout } from "../../store/auth/authAction";
 import { useNavigate } from "react-router-dom";
 import CommonModal from "../../components/molecules/common/modal/CommonModal";
 import WithdrawConfirmModal from "../../components/organisms/user/WithdrawConfirmModal";
+import {
+  blockUserThunk,
+  unBlockUserThunk,
+} from "../../store/blocked/blockThunk";
 
 interface HeaderProps {
   onViewContent: React.Dispatch<
@@ -68,6 +72,9 @@ export const UserPageHeader = ({
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isBlocked = useSelector(
+    (state: RootState) => state.UserInfo.blockStatus,
+  );
   const profileImgInputRef = useRef<HTMLInputElement>(null);
   const backgroundImgInputRef = useRef<HTMLInputElement>(null);
   const userInfo = useSelector((state: RootState) => state.UserInfo);
@@ -95,6 +102,8 @@ export const UserPageHeader = ({
       );
     }, 0);
   };
+  const blockStatus = userInfo.blockStatus;
+
   const zoomInBackgroundImg = async (e: React.MouseEvent) => {
     await setBackgroundOpen(true);
     e.stopPropagation();
@@ -102,7 +111,7 @@ export const UserPageHeader = ({
   const zoomInProfileImg = (e: React.MouseEvent) => {
     setProfileOpen(true);
     e.stopPropagation();
-    userPgMenuClose;
+    handleUserPgMenuClose;
   };
 
   const handleOpenProfileImg = (e: React.MouseEvent) => {
@@ -118,26 +127,56 @@ export const UserPageHeader = ({
   const [showUserPgMenuAnchorEl, setShowUserPgAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
+  const [showOtherUserPgMenuAnchorEl, setShowOtherUserPgMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+
+  // 모바일메뉴
+  // 내페이지메뉴
   const handleOpenMenu = (e: React.MouseEvent<HTMLElement>) => {
     setShowUserPgAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+  const handleUserPgMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
+    setShowUserPgAnchorEl(null);
+    e.stopPropagation();
+  };
+
+  // 타유저페이지메뉴
+  const handleOpenOtherUserMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserPgMenuAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const handleOtherUserMenuClose = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserPgMenuAnchorEl(null);
     e.stopPropagation();
   };
 
   const [showUserPgDropMenuAnchorEl, setShowUserDropPgAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
+  const [showOtherUserPgDropMenuAnchorEl, setShowOtherUserDropPgMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+
+  // 웹사이트메뉴
+  // 내페이지메뉴
   const handleOpenDropMenu = (e: React.MouseEvent<HTMLElement>) => {
     setShowUserDropPgAnchorEl(e.currentTarget);
+
     e.stopPropagation();
   };
-
-  const userPgMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
-    setShowUserPgAnchorEl(null);
-    e.stopPropagation();
-  };
-
   const userPgDropMenuClose = async (e: React.MouseEvent<HTMLElement>) => {
     setShowUserDropPgAnchorEl(null);
+    e.stopPropagation();
+  };
+  // 타유저페이지메뉴
+  const handleOpenOtherUserDropMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserDropPgMenuAnchorEl(e.currentTarget);
+    e.stopPropagation();
+  };
+
+  const handleOtherUserDropMenuClose = (e: React.MouseEvent<HTMLElement>) => {
+    setShowOtherUserDropPgMenuAnchorEl(null);
     e.stopPropagation();
   };
 
@@ -153,8 +192,22 @@ export const UserPageHeader = ({
     dispatch(logout());
   };
 
+  const blockUserFunc = async (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    await dispatch(blockUserThunk({ blockUserId: userId }));
+    setShowOtherUserPgMenuAnchorEl(null);
+  };
+
+  const unBlockUserFunc = async (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    await dispatch(unBlockUserThunk({ unBlockUserId: userId }));
+    setShowOtherUserPgMenuAnchorEl(null);
+  };
+
   const userPgDropMenuOpen = Boolean(showUserPgDropMenuAnchorEl);
   const userPgMenuOpen = Boolean(showUserPgMenuAnchorEl);
+  const otherUserPgDropMenuOpen = Boolean(showOtherUserPgDropMenuAnchorEl);
+  const otherUserPgMenuOpen = Boolean(showOtherUserPgMenuAnchorEl);
 
   const getBackgroundImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -212,6 +265,19 @@ export const UserPageHeader = ({
     }
   }, [userId]);
 
+  // Todo 타유저페이지의 메뉴와 내페이지의 메뉴를 구분
+  const openMenu = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    if (isMyPage) {
+      return isMobile ? handleOpenMenu(e) : handleOpenDropMenu(e);
+    } else {
+      return isMobile
+        ? handleOpenOtherUserMenu(e)
+        : handleOpenOtherUserDropMenu(e);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -249,27 +315,24 @@ export const UserPageHeader = ({
         }}
       >
         {/*  데스크탑상의 유저페이지메뉴 */}
-        {isMyPage ? (
-          <IconButton
-            onClick={isMobile ? handleOpenMenu : handleOpenDropMenu}
+        <IconButton
+          onClick={openMenu}
+          sx={{
+            display: "flex",
+            position: "absolute",
+            top: "5%",
+            right: { xs: "3%", md: "0.5rem" },
+            translate: "50%, 50%",
+          }}
+        >
+          <MenuIcon
             sx={{
-              display: "flex",
-              position: "absolute",
-              top: "5%",
-              right: { xs: "3%", md: "0.5rem" },
-              translate: "50%, 50%",
+              fontSize: "2rem",
+              color: theme.palette.fontColor.icon,
             }}
-          >
-            <MenuIcon
-              sx={{
-                fontSize: "2rem",
-                color: theme.palette.fontColor.icon,
-              }}
-            />
-          </IconButton>
-        ) : (
-          <Box />
-        )}
+          />
+        </IconButton>
+
         <Menu
           id="basic-menu"
           anchorEl={showUserPgDropMenuAnchorEl}
@@ -301,8 +364,47 @@ export const UserPageHeader = ({
           </MenuItem>
         </Menu>
 
+        {/* 데스크탑의의 타유저페이지의 드랍메뉴 */}
+        <Menu
+          id="basic-menu"
+          anchorEl={showOtherUserPgDropMenuAnchorEl}
+          open={otherUserPgDropMenuOpen}
+          onClose={handleOtherUserDropMenuClose}
+          slotProps={{
+            list: {
+              "aria-labelledby": "basic-button",
+            },
+          }}
+        >
+          <MenuItem
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+            onClick={handleOtherUserDropMenuClose}
+          >
+            {blockStatus ? (
+              <DynamicCustomButton
+                title="UnBlock Account"
+                onClick={unBlockUserFunc}
+                color={theme.palette.error.dark}
+              />
+            ) : (
+              <DynamicCustomButton
+                title="Block Account"
+                onClick={blockUserFunc}
+                color={theme.palette.error.dark}
+              />
+            )}
+          </MenuItem>
+        </Menu>
+
         {/* 모바일상의 유저페이지메뉴 */}
-        <Drawer anchor="top" open={userPgMenuOpen} onClose={userPgMenuClose}>
+        <Drawer
+          anchor="top"
+          open={userPgMenuOpen}
+          onClose={handleUserPgMenuClose}
+        >
           <DynamicCustomButton
             title="Logout"
             onClick={logoutFunc}
@@ -313,6 +415,26 @@ export const UserPageHeader = ({
             onClick={openWithdrawCofirmModal}
             color={theme.palette.error.dark}
           />
+        </Drawer>
+        {/* 모바일상의 타유저페이지메뉴 */}
+        <Drawer
+          anchor="top"
+          open={otherUserPgMenuOpen}
+          onClose={handleOtherUserMenuClose}
+        >
+          {blockStatus ? (
+            <DynamicCustomButton
+              title="Unblock Account"
+              onClick={unBlockUserFunc}
+              color={theme.palette.error.dark}
+            />
+          ) : (
+            <DynamicCustomButton
+              title="Block Account"
+              onClick={blockUserFunc}
+              color={theme.palette.error.dark}
+            />
+          )}
         </Drawer>
         <Box>
           <CustomAvatar
@@ -442,17 +564,22 @@ export const UserPageHeader = ({
                         }}
                         onClick={followingCencel}
                       >
-                        팔로잉중
+                        팔로잉 중
                       </Button>
                     ) : (
                       <Button
+                        disabled={isBlocked}
                         sx={{
                           background: (theme) => theme.palette.primary.main,
                           color: (theme) => theme.palette.background.paper,
+                          "&.Mui-disabled": {
+                            backgroundColor: "#bdbdbd",
+                            color: "#666",
+                          },
                         }}
                         onClick={following}
                       >
-                        팔로잉
+                        {isBlocked ? "차단 중" : "팔로우"}
                       </Button>
                     )}
                   </Box>

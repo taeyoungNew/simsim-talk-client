@@ -7,6 +7,7 @@ import {
 } from "./userInfoThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
 import { logout } from "../auth/authAction";
+import { blockUserThunk, unBlockUserThunk } from "../blocked/blockThunk";
 
 interface Error {
   status: number;
@@ -40,6 +41,7 @@ interface UserInfoInitialState {
   successMessage: string;
   id?: string;
   profileUrl: string;
+  blockStatus: boolean;
   nickname: string;
   username: string;
   aboutMe: string;
@@ -61,6 +63,7 @@ const userInfoInitialState: UserInfoInitialState = {
   id: "",
   nickname: "",
   username: "",
+  blockStatus: false,
   aboutMe: "",
   age: 0,
   followerCnt: 0,
@@ -284,7 +287,55 @@ export const userInfoSlice = createSlice({
       .addCase(changeMyProfileImgThunk.rejected, (state, action) => {
         state.isLoading = false;
       });
+    // 차단 차단해제
+    builder
+      .addCase(blockUserThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(blockUserThunk.fulfilled, (state, action) => {
+        const myId = action.payload.data.myId;
+        const blockedId = action.payload.data.blockedId;
+        state.isLoading = false;
+        state.isFollowinged = false;
+        state.blockStatus = true;
+        const isFollowing = state.followers.find((el) => el.id === myId);
+        if (state.id === blockedId) {
+          if (isFollowing) {
+            state.followerCnt -= 1;
+            state.followers = state.followers.filter((el) => el.id !== myId);
+            state.isFollowinged = false;
+          }
+        } else {
+          // 타유저페이지에서 타유저의 팔로워나 팔로잉을 팔로잉 팔로잉취소를 했을경우
+          // 버튼만 변경한다.
+          state.isFollowingedIds = state.isFollowingedIds.filter(
+            (el) => el !== blockedId,
+          );
+          state.followers.forEach((el) => {
+            if (el.id === blockedId) el.isFollowing = false;
+          });
+          state.followings.forEach((el) => {
+            if (el.id === blockedId) el.isFollowing = false;
+          });
+        }
+      })
+      .addCase(blockUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as Error;
+      })
+      .addCase(unBlockUserThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(unBlockUserThunk.fulfilled, (state) => {
+        state.isLoading = false;
+        state.blockStatus = false;
+      })
+      .addCase(unBlockUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
 
+        state.error = action.payload as Error;
+      });
+    // 타유저의 정보가져오기
     builder
       .addCase(userInfoThunk.pending, (state) => {
         state.isLoading = true;
@@ -300,6 +351,7 @@ export const userInfoSlice = createSlice({
         state.followerCnt = action.payload.followerCnt;
         state.followingCnt = action.payload.followingCnt;
         state.postCnt = action.payload?.postCnt;
+        state.blockStatus = action.payload?.blockStatus;
 
         for (let idx = 0; idx < action.payload?.Followers.length; idx++) {
           state.followers.push({

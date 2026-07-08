@@ -57,6 +57,7 @@ interface UserRes {
   id: string;
   profileUrl: string;
   backgroundUrl: string;
+  blockStatus: boolean;
   email: string;
   isFollowinged: boolean;
   followerCnt: number;
@@ -167,6 +168,7 @@ export const userInfoThunk = createAsyncThunk<
       profileUrl: getUserInfo.UserInfo.profileUrl,
       backgroundUrl: getUserInfo.UserInfo.backgroundUrl,
       email: getUserInfo.email,
+      blockStatus: getUserInfo.blockStatus,
       isFollowinged: getUserInfo.isFollowinged,
       followerCnt: getUserInfo.followerCnt,
       followingCnt: getUserInfo.followingCnt,

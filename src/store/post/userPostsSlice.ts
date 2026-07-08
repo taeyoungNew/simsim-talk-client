@@ -3,6 +3,7 @@ import { getUserPostsThunk } from "./userPostsThunk";
 import { deletePostThunk, modifyPostThunk } from "./postDetailThunk";
 import { postLikeCencelThunk, postLikeThunk } from "../like/postLikeThunk";
 import { logout } from "../auth/authAction";
+import { createPostThunk } from "./allPostsThunk";
 
 interface IsLastIsLoading {
   isLoading: boolean;
@@ -90,6 +91,21 @@ export const getUserPostsSlice = createSlice({
         }
       })
       .addCase(postLikeThunk.rejected, (state, action) => {
+        state.isLoading = false;
+      });
+    builder
+      .addCase(createPostThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(createPostThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        state.posts.unshift({
+          ...action.payload,
+          commentCnt: action.payload.Comments.length,
+        });
+      })
+      .addCase(createPostThunk.rejected, (state, action) => {
         state.isLoading = false;
       });
     builder

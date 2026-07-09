@@ -31,10 +31,16 @@ interface UserPageBodyProps {
     | "userInfo"
     | "editUserInfo"
     | "followings"
-    | "followers";
+    | "followers"
+    | "blockedUsers";
   onViewContent: React.Dispatch<
     React.SetStateAction<
-      "userPosts" | "userInfo" | "editUserInfo" | "followings" | "followers"
+      | "userPosts"
+      | "userInfo"
+      | "editUserInfo"
+      | "followings"
+      | "followers"
+      | "blockedUsers"
     >
   >;
   onEditClick: () => void;
@@ -46,6 +52,8 @@ type EditMyProfileType = {
   age: string;
   aboutMe: string;
 };
+
+type UserDetailView = "profile" | "blockedUsers" | "settings" | "bookmarks";
 
 export const UserPageBody = ({
   onViewContent,
@@ -68,6 +76,7 @@ export const UserPageBody = ({
   const isLoading = useSelector(
     (state: RootState) => state.GetUserPosts.isLoading,
   );
+
   const myId = useSelector((state: RootState) => state.User.id);
 
   let postLastId =
@@ -388,6 +397,8 @@ export const UserPageBody = ({
             })}
           </Box>
         );
+      case "blockedUsers":
+        return <Box>차단유저리스트</Box>;
       default:
         return (
           <Box
@@ -443,24 +454,36 @@ export const UserPageBody = ({
           borderBottom: "0.5px solid grey",
         }}
       >
-        <PostButton
-          onClick={() => onViewContent("userPosts")}
-          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-        ></PostButton>
-        <UserInfoButton
-          onClick={() => onViewContent("userInfo")}
-          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-        ></UserInfoButton>
-        <DynamicCustomButton
-          onClick={() => onViewContent("followings")}
-          fontSize={buttonFontSize}
-          title={"팔로잉"}
-        />
-        <DynamicCustomButton
-          onClick={() => onViewContent("followers")}
-          fontSize={buttonFontSize}
-          title={"팔로워"}
-        />
+        {viewContent !== "blockedUsers" ? (
+          <>
+            <PostButton
+              onClick={() => onViewContent("userPosts")}
+              sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+            ></PostButton>
+            <UserInfoButton
+              onClick={() => onViewContent("userInfo")}
+              sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+            ></UserInfoButton>
+            <DynamicCustomButton
+              onClick={() => onViewContent("followings")}
+              fontSize={buttonFontSize}
+              title={"팔로잉"}
+            />
+            <DynamicCustomButton
+              onClick={() => onViewContent("followers")}
+              fontSize={buttonFontSize}
+              title={"팔로워"}
+            />
+          </>
+        ) : (
+          <>
+            <DynamicCustomButton
+              fontSize={buttonFontSize}
+              title={"차단리스트"}
+              color={theme.palette.error.main}
+            />
+          </>
+        )}
       </Box>
       {renderContent()}
     </Box>

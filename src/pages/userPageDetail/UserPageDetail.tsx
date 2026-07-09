@@ -14,8 +14,14 @@ import { useSelector } from "react-redux";
 
 export const UserPageDetail = () => {
   const [viewContent, setViewContent] = useState<
-    "userPosts" | "userInfo" | "editUserInfo" | "followers" | "followings"
+    | "userPosts"
+    | "userInfo"
+    | "editUserInfo"
+    | "followers"
+    | "followings"
+    | "blockedUsers"
   >("userPosts");
+
   const [isEditProfile, setIsEditProfile] = useState(false);
   const path = location.pathname;
   let isMyPage = useLocation().state?.myPage;

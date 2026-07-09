@@ -31,6 +31,12 @@ interface Followings {
   isFollowing: boolean;
 }
 
+interface BlockUser {
+  id: string;
+  profileUrl: string;
+  createAt: string;
+}
+
 interface IsFollowingedId {
   isFollowingedId: string;
 }
@@ -54,6 +60,7 @@ interface UserInfoInitialState {
   isFollowingedIds: string[];
   postCnt: number;
   error: null | Error;
+  blockUserList: BlockUser[];
 }
 
 const userInfoInitialState: UserInfoInitialState = {
@@ -79,6 +86,7 @@ const userInfoInitialState: UserInfoInitialState = {
   followings: [],
   isFollowingedIds: [],
   profileUrl: "",
+  blockUserList: [],
 };
 
 export const userInfoSlice = createSlice({

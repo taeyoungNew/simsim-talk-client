@@ -23,3 +23,10 @@ export const unBlockUserAPI = async ({ unBlockUserId }: UnBlockUserType) => {
     },
   );
 };
+
+export const blockByMeUserListAPI = async () => {
+  return await axios.get(
+    `${import.meta.env.VITE_API_BASE}block-user/blocked-list`,
+    { withCredentials: true },
+  );
+};

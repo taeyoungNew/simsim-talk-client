@@ -43,6 +43,8 @@ export const UserPageDetail = () => {
         dispatch(resetFollowers());
       };
     }
+    // if(isMyPage)
+    //  dispatch()
   }, [location.pathname]);
   return (
     <Box sx={{ display: "grid", gap: "0.5rem" }}>

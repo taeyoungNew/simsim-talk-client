@@ -7,7 +7,11 @@ import {
 } from "./userInfoThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
 import { logout } from "../auth/authAction";
-import { blockUserThunk, unBlockUserThunk } from "../blocked/blockThunk";
+import {
+  blockByMeUserListThunk,
+  blockUserThunk,
+  unBlockUserThunk,
+} from "../blocked/blockThunk";
 
 interface Error {
   status: number;
@@ -295,7 +299,7 @@ export const userInfoSlice = createSlice({
       .addCase(changeMyProfileImgThunk.rejected, (state, action) => {
         state.isLoading = false;
       });
-    // 차단 차단해제
+    // 차단 차단해제 차단리스트가져오기
     builder
       .addCase(blockUserThunk.pending, (state) => {
         state.isLoading = true;
@@ -343,6 +347,15 @@ export const userInfoSlice = createSlice({
 
         state.error = action.payload as Error;
       });
+    // .addCase(blockByMeUserListThunk.pending, (state, action) => {})
+    // .addCase(blockByMeUserListThunk.fulfilled, (state, action) => {
+    //   state.blockUserList = action.payload;
+    // })
+    // .addCase(blockByMeUserListThunk.rejected, (state, action) => {
+    //   state.isLoading = false;
+
+    //   state.error = action.payload as Error;
+    // });
     // 타유저의 정보가져오기
     builder
       .addCase(userInfoThunk.pending, (state) => {

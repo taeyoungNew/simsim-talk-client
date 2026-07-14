@@ -17,6 +17,7 @@ import EditBox from "../../components/atoms/box/EditBox";
 import InfoBox from "../../components/atoms/box/InfoBox";
 import { DynamicCustomButton } from "../../components/atoms/buttons/DynamicCustomButton";
 import { FollowUserCard } from "../../components/molecules/FollowUserCard";
+import { BlockUserCard } from "../../components/molecules/BlockUserCard";
 
 interface GetUserPostsReq {
   userId: string;
@@ -398,7 +399,11 @@ export const UserPageBody = ({
           </Box>
         );
       case "blockedUsers":
-        return <Box>차단유저리스트</Box>;
+        return (
+          <Box>
+            <BlockUserCard />
+          </Box>
+        );
       default:
         return (
           <Box

@@ -15,7 +15,10 @@ interface UnBlockUserType {
 }
 
 interface BlockByMeUserList {
-  userId: string;
+  blockedId: string;
+  nickname: string;
+  profileUrl: string;
+  createAt: string;
 }
 
 interface Error {
@@ -65,12 +68,12 @@ export const unBlockUserThunk = createAsyncThunk<
 });
 
 export const blockByMeUserListThunk = createAsyncThunk<
-  {},
-  BlockByMeUserList,
+  BlockByMeUserList[],
+  void,
   { rejectValue: Error }
->("block/blockByMeUserList", async ({}, thunkAPI) => {
+>("block/blockByMeUserList", async (_, thunkAPI) => {
   try {
-    return (await blockByMeUserListAPI()).data.data;
+    return (await blockByMeUserListAPI()).data.datas;
   } catch (error: any) {
     const errMessage = error.response.data.message;
     thunkAPI.dispatch(openSnackbar(errMessage));

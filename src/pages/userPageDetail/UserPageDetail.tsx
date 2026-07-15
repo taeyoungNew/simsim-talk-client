@@ -11,6 +11,7 @@ import {
 } from "../../store/user/userInfoSlice";
 import { useAppDispatch } from "../../store/hook";
 import { useSelector } from "react-redux";
+import { blockByMeUserListThunk } from "../../store/blocked/blockThunk";
 
 export const UserPageDetail = () => {
   const [viewContent, setViewContent] = useState<
@@ -35,6 +36,8 @@ export const UserPageDetail = () => {
   paramUserId = isMyPage ? myId : userId;
 
   useEffect(() => {
+    console.log("isMyPage = ", isMyPage);
+    if (isMyPage) dispatch(blockByMeUserListThunk());
     if (path !== prevPathName) {
       return () => {
         dispatch(resetIsLast());
@@ -43,8 +46,6 @@ export const UserPageDetail = () => {
         dispatch(resetFollowers());
       };
     }
-    // if(isMyPage)
-    //  dispatch()
   }, [location.pathname]);
   return (
     <Box sx={{ display: "grid", gap: "0.5rem" }}>

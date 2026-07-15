@@ -77,6 +77,9 @@ export const UserPageBody = ({
   const isLoading = useSelector(
     (state: RootState) => state.GetUserPosts.isLoading,
   );
+  const blockByMeUserList = useSelector(
+    (state: RootState) => state.UserInfo.blockUserList,
+  );
 
   const myId = useSelector((state: RootState) => state.User.id);
 
@@ -401,7 +404,17 @@ export const UserPageBody = ({
       case "blockedUsers":
         return (
           <Box>
-            <BlockUserCard />
+            {blockByMeUserList.map((el, index) => {
+              return (
+                <BlockUserCard
+                  key={index}
+                  profileUrl={el.profileUrl}
+                  userId={el.blockedId}
+                  nickname={el.nickname}
+                  isBlockinged={el.isBlockinged}
+                />
+              );
+            })}
           </Box>
         );
       default:

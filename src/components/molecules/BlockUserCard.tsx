@@ -2,15 +2,33 @@ import { Box, Typography } from "@mui/material";
 import { CustomAvatar } from "../../assets/icons/Avatar";
 import { DynamicCustomButton } from "../atoms/buttons/DynamicCustomButton";
 import { theme } from "../../theme/theme";
+import { useAppDispatch } from "../../store/hook";
+import {
+  blockUserThunk,
+  unBlockUserThunk,
+} from "../../store/blocked/blockThunk";
 
 interface BlockUserCardProp {
   profileUrl: string;
   userId: string;
   nickname: string;
-  onlineUsers: string[];
+  isBlockinged: boolean;
 }
 
-export const BlockUserCard = ({}) => {
+export const BlockUserCard = ({
+  nickname,
+  profileUrl,
+  userId,
+  isBlockinged,
+}: BlockUserCardProp) => {
+  const dispatch = useAppDispatch();
+  const blockUserFunc = async () => {
+    await dispatch(blockUserThunk({ blockUserId: userId }));
+  };
+
+  const unBlockUserFunc = async () => {
+    await dispatch(unBlockUserThunk({ unBlockUserId: userId }));
+  };
   return (
     <Box
       sx={{
@@ -23,11 +41,14 @@ export const BlockUserCard = ({}) => {
     >
       <Box sx={{ display: "flex", gap: 1 }}>
         <Box sx={{ display: "flex", alignContent: "center" }}>
-          <CustomAvatar sx={{ width: "3rem", height: "3rem" }} />
+          <CustomAvatar
+            profileUrl={profileUrl}
+            sx={{ width: "3rem", height: "3rem" }}
+          />
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography sx={{ fontSize: "0.9rem", fontWeight: "bold" }}>
-            닉네임
+            {nickname}
           </Typography>
           <Typography
             sx={{
@@ -41,11 +62,21 @@ export const BlockUserCard = ({}) => {
         </Box>
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <DynamicCustomButton
-          color={theme.palette.background.paper}
-          backgroundColor={theme.palette.fontColor.icon}
-          title={"차단"}
-        />
+        {isBlockinged ? (
+          <DynamicCustomButton
+            onClick={unBlockUserFunc}
+            color={theme.palette.background.paper}
+            backgroundColor={theme.palette.fontColor.icon}
+            title={"차단해제"}
+          />
+        ) : (
+          <DynamicCustomButton
+            onClick={blockUserFunc}
+            color={theme.palette.error.main}
+            backgroundColor={theme.palette.background.paper}
+            title={"차단"}
+          />
+        )}
       </Box>
     </Box>
   );

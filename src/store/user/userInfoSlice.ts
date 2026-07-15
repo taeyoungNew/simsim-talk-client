@@ -36,8 +36,10 @@ interface Followings {
 }
 
 interface BlockUser {
-  id: string;
+  blockedId: string;
+  nickname: string;
   profileUrl: string;
+  isBlockinged: boolean;
   createAt: string;
 }
 
@@ -346,16 +348,26 @@ export const userInfoSlice = createSlice({
         state.isLoading = false;
 
         state.error = action.payload as Error;
-      });
-    // .addCase(blockByMeUserListThunk.pending, (state, action) => {})
-    // .addCase(blockByMeUserListThunk.fulfilled, (state, action) => {
-    //   state.blockUserList = action.payload;
-    // })
-    // .addCase(blockByMeUserListThunk.rejected, (state, action) => {
-    //   state.isLoading = false;
+      })
+      .addCase(blockByMeUserListThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(blockByMeUserListThunk.fulfilled, (state, action) => {
+        state.blockUserList = action.payload.map((el) => {
+          return {
+            blockedId: el.blockedId,
+            createAt: el.createAt,
+            isBlockinged: true,
+            nickname: el.nickname,
+            profileUrl: el.profileUrl,
+          };
+        });
+      })
+      .addCase(blockByMeUserListThunk.rejected, (state, action) => {
+        state.isLoading = false;
 
-    //   state.error = action.payload as Error;
-    // });
+        state.error = action.payload as Error;
+      });
     // 타유저의 정보가져오기
     builder
       .addCase(userInfoThunk.pending, (state) => {

@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { openSnackbar } from "../error/errorSlice";
-import { blockUserAPI, unBlockUserAPI } from "../../apis/blockUser";
+import {
+  blockByMeUserListAPI,
+  blockUserAPI,
+  unBlockUserAPI,
+} from "../../apis/blockUser";
 
 interface BlockUserType {
   blockUserId: string;
@@ -8,6 +12,13 @@ interface BlockUserType {
 
 interface UnBlockUserType {
   unBlockUserId: string;
+}
+
+interface BlockByMeUserList {
+  blockedId: string;
+  nickname: string;
+  profileUrl: string;
+  createAt: string;
 }
 
 interface Error {
@@ -37,14 +48,32 @@ export const blockUserThunk = createAsyncThunk<
 });
 
 export const unBlockUserThunk = createAsyncThunk<
-  { message: string },
+  { message: string; data: { blockedId: string; myId: string } },
   UnBlockUserType,
   { rejectValue: Error }
 >("block/unBlockUser", async ({ unBlockUserId }: UnBlockUserType, thunkAPI) => {
   try {
-    const unBlockUserResult = (await unBlockUserAPI({ unBlockUserId })).data
-      .data;
+    const unBlockUserResult = (await unBlockUserAPI({ unBlockUserId })).data;
+
     return unBlockUserResult;
+  } catch (error: any) {
+    const errMessage = error.response.data.message;
+    thunkAPI.dispatch(openSnackbar(errMessage));
+    return thunkAPI.rejectWithValue({
+      errorCode: error.response.data.errorCode,
+      status: error.response.status,
+      message: error.response.data.message,
+    });
+  }
+});
+
+export const blockByMeUserListThunk = createAsyncThunk<
+  BlockByMeUserList[],
+  void,
+  { rejectValue: Error }
+>("block/blockByMeUserList", async (_, thunkAPI) => {
+  try {
+    return (await blockByMeUserListAPI()).data.datas;
   } catch (error: any) {
     const errMessage = error.response.data.message;
     thunkAPI.dispatch(openSnackbar(errMessage));

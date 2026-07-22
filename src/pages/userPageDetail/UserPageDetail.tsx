@@ -11,11 +11,18 @@ import {
 } from "../../store/user/userInfoSlice";
 import { useAppDispatch } from "../../store/hook";
 import { useSelector } from "react-redux";
+import { blockByMeUserListThunk } from "../../store/blocked/blockThunk";
 
 export const UserPageDetail = () => {
   const [viewContent, setViewContent] = useState<
-    "userPosts" | "userInfo" | "editUserInfo" | "followers" | "followings"
+    | "userPosts"
+    | "userInfo"
+    | "editUserInfo"
+    | "followers"
+    | "followings"
+    | "blockedUsers"
   >("userPosts");
+
   const [isEditProfile, setIsEditProfile] = useState(false);
   const path = location.pathname;
   let isMyPage = useLocation().state?.myPage;
@@ -29,6 +36,8 @@ export const UserPageDetail = () => {
   paramUserId = isMyPage ? myId : userId;
 
   useEffect(() => {
+    console.log("isMyPage = ", isMyPage);
+    if (isMyPage) dispatch(blockByMeUserListThunk());
     if (path !== prevPathName) {
       return () => {
         dispatch(resetIsLast());

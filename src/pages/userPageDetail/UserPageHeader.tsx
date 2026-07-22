@@ -55,7 +55,12 @@ import {
 interface HeaderProps {
   onViewContent: React.Dispatch<
     React.SetStateAction<
-      "userPosts" | "userInfo" | "editUserInfo" | "followers" | "followings"
+      | "userPosts"
+      | "userInfo"
+      | "editUserInfo"
+      | "followers"
+      | "followings"
+      | "blockedUsers"
     >
   >;
   onEditClick: () => void;
@@ -352,6 +357,11 @@ export const UserPageHeader = ({
             onClick={userPgDropMenuClose}
           >
             <DynamicCustomButton
+              title={"Blocked Users"}
+              color={theme.palette.buttonColor.main}
+              onClick={() => onViewContent("blockedUsers")}
+            />
+            <DynamicCustomButton
               title="Logout"
               onClick={logoutFunc}
               color={theme.palette.error.main}
@@ -405,6 +415,11 @@ export const UserPageHeader = ({
           open={userPgMenuOpen}
           onClose={handleUserPgMenuClose}
         >
+          <DynamicCustomButton
+            title={"Blocked Users"}
+            color={theme.palette.buttonColor.main}
+            onClick={() => onViewContent("blockedUsers")}
+          />
           <DynamicCustomButton
             title="Logout"
             onClick={logoutFunc}

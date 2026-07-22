@@ -17,6 +17,9 @@ import EditBox from "../../components/atoms/box/EditBox";
 import InfoBox from "../../components/atoms/box/InfoBox";
 import { DynamicCustomButton } from "../../components/atoms/buttons/DynamicCustomButton";
 import { FollowUserCard } from "../../components/molecules/FollowUserCard";
+import { BlockUserCard } from "../../components/molecules/BlockUserCard";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
+import { List } from "@mui/icons-material";
 
 interface GetUserPostsReq {
   userId: string;
@@ -31,10 +34,16 @@ interface UserPageBodyProps {
     | "userInfo"
     | "editUserInfo"
     | "followings"
-    | "followers";
+    | "followers"
+    | "blockedUsers";
   onViewContent: React.Dispatch<
     React.SetStateAction<
-      "userPosts" | "userInfo" | "editUserInfo" | "followings" | "followers"
+      | "userPosts"
+      | "userInfo"
+      | "editUserInfo"
+      | "followings"
+      | "followers"
+      | "blockedUsers"
     >
   >;
   onEditClick: () => void;
@@ -46,6 +55,8 @@ type EditMyProfileType = {
   age: string;
   aboutMe: string;
 };
+
+type UserDetailView = "profile" | "blockedUsers" | "settings" | "bookmarks";
 
 export const UserPageBody = ({
   onViewContent,
@@ -68,6 +79,10 @@ export const UserPageBody = ({
   const isLoading = useSelector(
     (state: RootState) => state.GetUserPosts.isLoading,
   );
+  const blockByMeUserList = useSelector(
+    (state: RootState) => state.UserInfo.blockUserList,
+  );
+
   const myId = useSelector((state: RootState) => state.User.id);
 
   let postLastId =
@@ -388,6 +403,34 @@ export const UserPageBody = ({
             })}
           </Box>
         );
+      case "blockedUsers":
+        return (
+          <Box
+            sx={{
+              height: "inherit",
+            }}
+          >
+            {blockByMeUserList.map((el, index) => {
+              return (
+                <ListItem
+                  key={index}
+                  sx={{
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Box sx={{ width: "100%" }}>
+                    <BlockUserCard
+                      profileUrl={el.profileUrl}
+                      userId={el.blockedId}
+                      nickname={el.nickname}
+                      isBlockinged={el.isBlockinged}
+                    />
+                  </Box>
+                </ListItem>
+              );
+            })}
+          </Box>
+        );
       default:
         return (
           <Box
@@ -443,24 +486,47 @@ export const UserPageBody = ({
           borderBottom: "0.5px solid grey",
         }}
       >
-        <PostButton
-          onClick={() => onViewContent("userPosts")}
-          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-        ></PostButton>
-        <UserInfoButton
-          onClick={() => onViewContent("userInfo")}
-          sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
-        ></UserInfoButton>
-        <DynamicCustomButton
-          onClick={() => onViewContent("followings")}
-          fontSize={buttonFontSize}
-          title={"팔로잉"}
-        />
-        <DynamicCustomButton
-          onClick={() => onViewContent("followers")}
-          fontSize={buttonFontSize}
-          title={"팔로워"}
-        />
+        {viewContent !== "blockedUsers" ? (
+          <>
+            <PostButton
+              onClick={() => onViewContent("userPosts")}
+              sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+            ></PostButton>
+            <UserInfoButton
+              onClick={() => onViewContent("userInfo")}
+              sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
+            ></UserInfoButton>
+            <DynamicCustomButton
+              onClick={() => onViewContent("followings")}
+              fontSize={buttonFontSize}
+              title={"팔로잉"}
+            />
+            <DynamicCustomButton
+              onClick={() => onViewContent("followers")}
+              fontSize={buttonFontSize}
+              title={"팔로워"}
+            />
+          </>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <DynamicCustomButton
+              fontSize={buttonFontSize}
+              title={"차단리스트"}
+              color={theme.palette.error.main}
+            />
+            <DynamicCustomButton
+              onClick={() => onViewContent("userPosts")}
+              title={"나가기"}
+              icon={<ContactPageIcon />}
+            />
+          </Box>
+        )}
       </Box>
       {renderContent()}
     </Box>

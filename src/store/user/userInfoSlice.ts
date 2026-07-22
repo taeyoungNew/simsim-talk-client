@@ -7,7 +7,11 @@ import {
 } from "./userInfoThunk";
 import { followingCencelThunk, followingThunk } from "../follow/followThunk";
 import { logout } from "../auth/authAction";
-import { blockUserThunk, unBlockUserThunk } from "../blocked/blockThunk";
+import {
+  blockByMeUserListThunk,
+  blockUserThunk,
+  unBlockUserThunk,
+} from "../blocked/blockThunk";
 
 interface Error {
   status: number;
@@ -29,6 +33,14 @@ interface Followings {
   nickname: string;
   username: string;
   isFollowing: boolean;
+}
+
+interface BlockUser {
+  blockedId: string;
+  nickname: string;
+  profileUrl: string;
+  isBlockinged: boolean;
+  createAt: string;
 }
 
 interface IsFollowingedId {
@@ -54,6 +66,7 @@ interface UserInfoInitialState {
   isFollowingedIds: string[];
   postCnt: number;
   error: null | Error;
+  blockUserList: BlockUser[];
 }
 
 const userInfoInitialState: UserInfoInitialState = {
@@ -79,6 +92,7 @@ const userInfoInitialState: UserInfoInitialState = {
   followings: [],
   isFollowingedIds: [],
   profileUrl: "",
+  blockUserList: [],
 };
 
 export const userInfoSlice = createSlice({
@@ -287,7 +301,7 @@ export const userInfoSlice = createSlice({
       .addCase(changeMyProfileImgThunk.rejected, (state, action) => {
         state.isLoading = false;
       });
-    // 차단 차단해제
+    // 차단 차단해제 차단리스트가져오기
     builder
       .addCase(blockUserThunk.pending, (state) => {
         state.isLoading = true;
@@ -299,6 +313,12 @@ export const userInfoSlice = createSlice({
         state.isFollowinged = false;
         state.blockStatus = true;
         const isFollowing = state.followers.find((el) => el.id === myId);
+        state.blockUserList = state.blockUserList.map((el) => {
+          if (el.blockedId === blockedId) el.isBlockinged = true;
+
+          return el;
+        });
+
         if (state.id === blockedId) {
           if (isFollowing) {
             state.followerCnt -= 1;
@@ -326,11 +346,37 @@ export const userInfoSlice = createSlice({
       .addCase(unBlockUserThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(unBlockUserThunk.fulfilled, (state) => {
+      .addCase(unBlockUserThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.blockStatus = false;
+        const blockedId = action.payload.data.blockedId;
+
+        state.blockUserList = state.blockUserList.map((el) => {
+          if (el.blockedId === blockedId) el.isBlockinged = false;
+
+          return el;
+        });
       })
       .addCase(unBlockUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+
+        state.error = action.payload as Error;
+      })
+      .addCase(blockByMeUserListThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(blockByMeUserListThunk.fulfilled, (state, action) => {
+        state.blockUserList = action.payload.map((el) => {
+          return {
+            blockedId: el.blockedId,
+            createAt: el.createAt,
+            isBlockinged: true,
+            nickname: el.nickname,
+            profileUrl: el.profileUrl,
+          };
+        });
+      })
+      .addCase(blockByMeUserListThunk.rejected, (state, action) => {
         state.isLoading = false;
 
         state.error = action.payload as Error;

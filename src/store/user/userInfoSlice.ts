@@ -313,6 +313,12 @@ export const userInfoSlice = createSlice({
         state.isFollowinged = false;
         state.blockStatus = true;
         const isFollowing = state.followers.find((el) => el.id === myId);
+        state.blockUserList = state.blockUserList.map((el) => {
+          if (el.blockedId === blockedId) el.isBlockinged = true;
+
+          return el;
+        });
+
         if (state.id === blockedId) {
           if (isFollowing) {
             state.followerCnt -= 1;
@@ -340,9 +346,16 @@ export const userInfoSlice = createSlice({
       .addCase(unBlockUserThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(unBlockUserThunk.fulfilled, (state) => {
+      .addCase(unBlockUserThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.blockStatus = false;
+        const blockedId = action.payload.data.blockedId;
+
+        state.blockUserList = state.blockUserList.map((el) => {
+          if (el.blockedId === blockedId) el.isBlockinged = false;
+
+          return el;
+        });
       })
       .addCase(unBlockUserThunk.rejected, (state, action) => {
         state.isLoading = false;

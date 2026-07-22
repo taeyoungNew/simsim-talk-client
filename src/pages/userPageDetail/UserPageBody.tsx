@@ -18,6 +18,8 @@ import InfoBox from "../../components/atoms/box/InfoBox";
 import { DynamicCustomButton } from "../../components/atoms/buttons/DynamicCustomButton";
 import { FollowUserCard } from "../../components/molecules/FollowUserCard";
 import { BlockUserCard } from "../../components/molecules/BlockUserCard";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
+import { List } from "@mui/icons-material";
 
 interface GetUserPostsReq {
   userId: string;
@@ -403,16 +405,28 @@ export const UserPageBody = ({
         );
       case "blockedUsers":
         return (
-          <Box>
+          <Box
+            sx={{
+              height: "inherit",
+            }}
+          >
             {blockByMeUserList.map((el, index) => {
               return (
-                <BlockUserCard
+                <ListItem
                   key={index}
-                  profileUrl={el.profileUrl}
-                  userId={el.blockedId}
-                  nickname={el.nickname}
-                  isBlockinged={el.isBlockinged}
-                />
+                  sx={{
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Box sx={{ width: "100%" }}>
+                    <BlockUserCard
+                      profileUrl={el.profileUrl}
+                      userId={el.blockedId}
+                      nickname={el.nickname}
+                      isBlockinged={el.isBlockinged}
+                    />
+                  </Box>
+                </ListItem>
               );
             })}
           </Box>
@@ -494,13 +508,24 @@ export const UserPageBody = ({
             />
           </>
         ) : (
-          <>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
             <DynamicCustomButton
               fontSize={buttonFontSize}
               title={"차단리스트"}
               color={theme.palette.error.main}
             />
-          </>
+            <DynamicCustomButton
+              onClick={() => onViewContent("userPosts")}
+              title={"나가기"}
+              icon={<ContactPageIcon />}
+            />
+          </Box>
         )}
       </Box>
       {renderContent()}

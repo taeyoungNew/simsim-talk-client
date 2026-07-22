@@ -48,13 +48,13 @@ export const blockUserThunk = createAsyncThunk<
 });
 
 export const unBlockUserThunk = createAsyncThunk<
-  { message: string },
+  { message: string; data: { blockedId: string; myId: string } },
   UnBlockUserType,
   { rejectValue: Error }
 >("block/unBlockUser", async ({ unBlockUserId }: UnBlockUserType, thunkAPI) => {
   try {
-    const unBlockUserResult = (await unBlockUserAPI({ unBlockUserId })).data
-      .data;
+    const unBlockUserResult = (await unBlockUserAPI({ unBlockUserId })).data;
+
     return unBlockUserResult;
   } catch (error: any) {
     const errMessage = error.response.data.message;

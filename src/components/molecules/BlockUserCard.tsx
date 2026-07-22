@@ -57,7 +57,9 @@ export const BlockUserCard = ({
               color: theme.palette.fontColor.icon,
             }}
           >
-            해당 계정이 차단되었습니다.
+            {isBlockinged
+              ? "해당 계정이 차단되었습니다."
+              : "해당 계정이 차단해제되었습니다."}
           </Typography>
         </Box>
       </Box>
@@ -72,8 +74,8 @@ export const BlockUserCard = ({
         ) : (
           <DynamicCustomButton
             onClick={blockUserFunc}
-            color={theme.palette.error.main}
-            backgroundColor={theme.palette.background.paper}
+            color={theme.palette.background.paper}
+            backgroundColor={theme.palette.error.main}
             title={"차단"}
           />
         )}

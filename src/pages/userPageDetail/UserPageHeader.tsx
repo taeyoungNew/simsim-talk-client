@@ -45,7 +45,7 @@ import { DynamicCustomButton } from "../../components/atoms/buttons/DynamicCusto
 import { logoutThunk } from "../../store/auth/authThunk";
 import { logout } from "../../store/auth/authAction";
 import { useNavigate } from "react-router-dom";
-import CommonModal from "../../components/molecules/common/modal/CommonModal";
+
 import WithdrawConfirmModal from "../../components/organisms/user/WithdrawConfirmModal";
 import {
   blockUserThunk,
@@ -601,6 +601,7 @@ export const UserPageHeader = ({
 
                   <Box>
                     <ChattingButton
+                      disabled={isBlocked}
                       onClick={openChatWindow}
                       sx={{ width: "8rem" }}
                     />

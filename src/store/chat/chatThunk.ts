@@ -31,6 +31,7 @@ interface ChatRoomType {
   lastMessagePreview: string;
   lastMessageType: MessageType;
   lastMessageAt: string;
+  isBlocked: boolean;
 }
 
 interface GetChatListRes {

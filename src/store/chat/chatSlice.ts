@@ -11,6 +11,7 @@ interface ChatRoomInfo {
   chatRoomId: string;
   targetUserNickname: string;
   targetUserId: string;
+  isBlocked: boolean;
 }
 
 interface ChatListInfos {
@@ -92,6 +93,7 @@ export const chatSlice = createSlice({
             targetUserNickname: getChatRoomInfo.targetUserNickname,
             chatRoomId: getChatRoomInfo.chatRoomId,
             targetUserId: getChatRoomInfo.targetUserId,
+            isBlocked: getChatRoomInfo.isBlocked,
           });
         }
 
@@ -116,8 +118,8 @@ export const chatSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(chatThunk.rejected, (state, action) => {
-        state.isLoading = false;
         state.errorMessage = action.error.message;
+        state.isLoading = false;
       })
       .addCase(blockUserThunk.pending, (state, action) => {
         state.isLoading = true;
@@ -130,6 +132,15 @@ export const chatSlice = createSlice({
           }
           return el;
         });
+
+        state.openedChatRooms = state.openedChatRooms.map((el) => {
+          if (el.targetUserId === blockedId) {
+            el.isBlocked = true;
+          }
+
+          return el;
+        });
+
         state.isLoading = false;
       })
       .addCase(blockUserThunk.rejected, (state, action) => {
@@ -145,6 +156,14 @@ export const chatSlice = createSlice({
           if (el.targetUserId === blockedId) {
             el.isBlocked = false;
           }
+          return el;
+        });
+
+        state.openedChatRooms = state.openedChatRooms.map((el) => {
+          if (el.targetUserId === blockedId) {
+            el.isBlocked = false;
+          }
+
           return el;
         });
         state.isLoading = false;

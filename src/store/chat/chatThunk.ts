@@ -22,6 +22,7 @@ interface CreateChatRes {
   targetUserNickname: string;
   targetUserEmail: string;
   isNew: boolean;
+  isBlocked: boolean;
 }
 interface ChatRoomType {
   chatRoomId: string;
@@ -73,14 +74,11 @@ export const chatThunk = createAsyncThunk<
         targetUserId,
         chatRoomId: chatRoomResult.chatRoomId,
         isNew: chatRoomResult.isNew,
+        isBlocked: chatRoomResult.isBlocked,
       };
     } catch (error: any) {
       const errMessage = error.response.data.message;
       thunkAPI.dispatch(openSnackbar(errMessage));
-      console.log(
-        "error.response.data.message = ",
-        error.response.data.message,
-      );
 
       return thunkAPI.rejectWithValue({
         errorCode: error.response.data.errorCode,

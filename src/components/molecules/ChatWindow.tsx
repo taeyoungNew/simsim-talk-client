@@ -47,6 +47,7 @@ interface ChatWindowProps {
   targetUserId: string;
   targetUserProfile: string;
   isActive: boolean;
+  isBlocked: boolean;
 }
 
 export const ChatWindow = ({
@@ -55,6 +56,7 @@ export const ChatWindow = ({
   targetUserId,
   targetUserProfile,
   isActive,
+  isBlocked,
 }: ChatWindowProps) => {
   const [message, setMessage] = useState("");
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -276,6 +278,8 @@ export const ChatWindow = ({
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Input
+              disabled={isBlocked}
+              placeholder={isBlocked ? "차단한 유저입니다." : ""}
               onChange={(e) => setMessage(e.target.value)}
               value={message}
               onKeyDown={(e) => {
@@ -310,12 +314,15 @@ export const ChatWindow = ({
             <IconButton
               onClick={sendMessage}
               sx={{ width: "2rem", height: "2rem" }}
+              disabled={isBlocked}
             >
               <TelegramIcon
                 sx={{
                   cursor: "pointer",
                   fontSize: "1.5rem",
-                  color: theme.palette.fontColor.icon,
+                  color: !isBlocked
+                    ? theme.palette.primary.main
+                    : theme.palette.buttonColor.dark,
                 }}
               />
             </IconButton>
@@ -329,6 +336,7 @@ export const ChatWindow = ({
         ref={fileInputRef}
         style={{ display: "none" }}
         onChange={getFile}
+        disabled={isBlocked}
       />
 
       {/* 이모지 피커 팝업 */}

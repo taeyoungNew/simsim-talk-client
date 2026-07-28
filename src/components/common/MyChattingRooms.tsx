@@ -60,6 +60,7 @@ export const MyChattingRooms = ({ sx, ...props }: MyChattingRoomsProps) => {
                 lastMessagePreview={el.lastMessagePreview}
                 lastMessageType={el.lastMessageType}
                 lastMessageAt={el.lastMessageAt}
+                isBlocked={el.isBlocked}
               />
             );
           })

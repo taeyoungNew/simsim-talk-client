@@ -279,7 +279,7 @@ export const ChatWindow = ({
           <Box sx={{ flexGrow: 1 }}>
             <Input
               disabled={isBlocked}
-              placeholder={isBlocked ? "차단한 유저입니다." : ""}
+              placeholder={isBlocked ? "차단된 유저입니다." : ""}
               onChange={(e) => setMessage(e.target.value)}
               value={message}
               onKeyDown={(e) => {
@@ -287,7 +287,10 @@ export const ChatWindow = ({
               }}
               startAdornment={
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setOpenEmoji((prev) => !prev)}>
+                  <IconButton
+                    disabled={isBlocked}
+                    onClick={() => setOpenEmoji((prev) => !prev)}
+                  >
                     <TagFacesIcon sx={{ cursor: "pointer" }} />
                   </IconButton>
                 </InputAdornment>

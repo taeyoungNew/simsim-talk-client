@@ -58,6 +58,9 @@ export const initSocket = (dispatch: AppDispatch) => {
   socket.on("sendAlarm", async (params) => {
     dispatch(getAlarmThunk(params));
   });
+  socket.on("error", async (params) => {
+    console.log(params.message);
+  });
   return socket;
 };
 export const reconnectSocket = (userId: string) => {

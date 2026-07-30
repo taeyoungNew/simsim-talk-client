@@ -87,6 +87,7 @@ export const Applayout = () => {
             targetUserId={opendChatInfo[0].targetUserId}
             targetUserProfile={""}
             isActive={false}
+            isBlocked={opendChatInfo[0].isBlocked}
           />
         ) : (
           <></>

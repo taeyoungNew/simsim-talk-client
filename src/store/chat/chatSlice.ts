@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { chatThunk, getChatsThunk } from "./chatThunk";
 import { logout } from "../auth/authAction";
+import { blockUserThunk, unBlockUserThunk } from "../blocked/blockThunk";
 
 interface IsLastIsLoading {
   isLoading: boolean;
@@ -10,6 +11,7 @@ interface ChatRoomInfo {
   chatRoomId: string;
   targetUserNickname: string;
   targetUserId: string;
+  isBlocked: boolean;
 }
 
 interface ChatListInfos {
@@ -20,6 +22,7 @@ interface ChatListInfos {
   lastMessagePreview: string;
   lastMessageType: "TEXT" | "IMAGE" | "FILE" | "SYSTEM";
   lastMessageAt: string;
+  isBlocked: boolean;
 }
 interface ChatInittialState {
   openedChatRooms: ChatRoomInfo[];
@@ -34,6 +37,7 @@ const chatInittialState: IsLastIsLoading & ChatInittialState = {
   activeChatRoomId: null,
   chatList: [],
 };
+
 export const chatSlice = createSlice({
   name: "chat/chatRooms",
   initialState: chatInittialState,
@@ -89,6 +93,7 @@ export const chatSlice = createSlice({
             targetUserNickname: getChatRoomInfo.targetUserNickname,
             chatRoomId: getChatRoomInfo.chatRoomId,
             targetUserId: getChatRoomInfo.targetUserId,
+            isBlocked: getChatRoomInfo.isBlocked,
           });
         }
 
@@ -106,12 +111,64 @@ export const chatSlice = createSlice({
             lastMessagePreview: "",
             lastMessageType: "TEXT",
             targetUserEmail: getChatRoomInfo.targetUserEmail,
+            isBlocked: false,
           });
         }
         state.activeChatRoomId = getChatRoomInfo.chatRoomId;
         state.isLoading = false;
       })
       .addCase(chatThunk.rejected, (state, action) => {
+        state.errorMessage = action.error.message;
+        state.isLoading = false;
+      })
+      .addCase(blockUserThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(blockUserThunk.fulfilled, (state, action) => {
+        const { blockedId } = action.payload.data;
+        state.chatList = state.chatList.map((el) => {
+          if (el.targetUserId === blockedId) {
+            el.isBlocked = true;
+          }
+          return el;
+        });
+
+        state.openedChatRooms = state.openedChatRooms.map((el) => {
+          if (el.targetUserId === blockedId) {
+            el.isBlocked = true;
+          }
+
+          return el;
+        });
+
+        state.isLoading = false;
+      })
+      .addCase(blockUserThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.errorMessage = action.error.message;
+      })
+      .addCase(unBlockUserThunk.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(unBlockUserThunk.fulfilled, (state, action) => {
+        const { blockedId } = action.payload.data;
+        state.chatList = state.chatList.map((el) => {
+          if (el.targetUserId === blockedId) {
+            el.isBlocked = false;
+          }
+          return el;
+        });
+
+        state.openedChatRooms = state.openedChatRooms.map((el) => {
+          if (el.targetUserId === blockedId) {
+            el.isBlocked = false;
+          }
+
+          return el;
+        });
+        state.isLoading = false;
+      })
+      .addCase(unBlockUserThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.errorMessage = action.error.message;
       });

@@ -53,6 +53,7 @@ export const ChattingsPage = () => {
               lastMessagePreview={el.lastMessagePreview}
               lastMessageType={el.lastMessageType}
               lastMessageAt={el.lastMessageAt}
+              isBlocked={el.isBlocked}
             />
           );
         })

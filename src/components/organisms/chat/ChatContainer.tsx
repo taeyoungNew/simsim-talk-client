@@ -38,6 +38,7 @@ export const ChatContainer = ({}) => {
             targetUserId={el.targetUserId}
             targetUserProfile={""}
             isActive={isActive}
+            isBlocked={el.isBlocked}
           />
         );
       })}

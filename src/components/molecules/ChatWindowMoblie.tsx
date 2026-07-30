@@ -47,6 +47,7 @@ interface ChatWindowMobileProps {
   targetUserId: string;
   targetUserProfile: string;
   isActive: boolean;
+  isBlocked: boolean;
 }
 
 export const ChatWindowMobile = ({
@@ -55,6 +56,7 @@ export const ChatWindowMobile = ({
   targetUserId,
   targetUserProfile,
   isActive,
+  isBlocked,
 }: ChatWindowMobileProps) => {
   const [message, setMessage] = useState("");
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -250,14 +252,19 @@ export const ChatWindowMobile = ({
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Input
+              disabled={isBlocked}
               onChange={(e) => setMessage(e.target.value)}
               value={message}
+              placeholder={isBlocked ? "차단된 유저입니다." : ""}
               onKeyDown={(e) => {
                 if (e.key === "Enter") sendMessage();
               }}
               startAdornment={
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setOpenEmoji((prev) => !prev)}>
+                  <IconButton
+                    disabled={isBlocked}
+                    onClick={() => setOpenEmoji((prev) => !prev)}
+                  >
                     <TagFacesIcon sx={{ cursor: "pointer" }} />
                   </IconButton>
                 </InputAdornment>
@@ -284,6 +291,7 @@ export const ChatWindowMobile = ({
             <IconButton
               onClick={sendMessage}
               sx={{ width: "2rem", height: "2rem" }}
+              disabled={isBlocked}
             >
               <TelegramIcon
                 sx={{
@@ -303,6 +311,7 @@ export const ChatWindowMobile = ({
         ref={fileInputRef}
         style={{ display: "none" }}
         onChange={getFile}
+        disabled={isBlocked}
       />
 
       {/* 이모지 피커 팝업 */}

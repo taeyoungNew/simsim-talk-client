@@ -19,6 +19,7 @@ interface ChatRoomCardMobileProps {
   lastMessagePreview: string;
   lastMessageType: "TEXT" | "IMAGE" | "FILE" | "SYSTEM";
   lastMessageAt: string;
+  isBlocked: boolean;
 }
 
 export const ChatRoomCardMobile = ({
@@ -29,6 +30,7 @@ export const ChatRoomCardMobile = ({
   targetUserEmail,
   targetUserId,
   targetUserNickname,
+  isBlocked,
 }: ChatRoomCardMobileProps) => {
   const dispatch = useAppDispatch();
   const unreadMsgByChat = useSelector(

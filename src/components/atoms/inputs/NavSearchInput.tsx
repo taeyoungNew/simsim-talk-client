@@ -1,7 +1,18 @@
 import { Box, Input } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useState } from "react";
 
-export const NavSearchInput = () => {
+interface NavSearchInputProps {
+  onSearch: (keyword: string) => void;
+}
+
+export const NavSearchInput = ({ onSearch }: NavSearchInputProps) => {
+  const [keyword, setKeyword] = useState("");
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && keyword.trim()) {
+      onSearch(keyword.trim());
+    }
+  };
   return (
     <Box
       sx={{
@@ -22,6 +33,9 @@ export const NavSearchInput = () => {
 
       <Input
         disableUnderline
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+        onKeyDown={handleKeyDown}
         sx={{
           borderBottomColor: "none",
           width: "20rem",

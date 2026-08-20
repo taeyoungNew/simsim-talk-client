@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { searchMainPageAPI } from "../../apis/elastic";
+import { globalSearchAPI } from "../../apis/elastic";
 
 interface Error {
   status: number;
@@ -25,14 +25,13 @@ interface Posts {
 interface GetSearchMainPage {
   posts: Posts[];
 }
-export const searchMainPage = createAsyncThunk<
+export const globalSearchThunk = createAsyncThunk<
   GetSearchMainPage,
   search,
   { rejectValue: Error }
 >("search/mainPage", async ({ keyword }, thunkAPI) => {
   try {
-    const result = (await searchMainPageAPI(keyword)).data.data;
-
+    const result = (await globalSearchAPI(keyword)).data.data;
     console.log("search result = ", result);
 
     return result;

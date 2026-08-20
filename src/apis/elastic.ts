@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const searchMainPageAPI = async (keyword: string) => {
+export const globalSearchAPI = async (keyword: string) => {
   return await axios.get(
-    `${import.meta.env.VITE_API_BASE}search-mainpage?keyword=${keyword}`,
+    `${import.meta.env.VITE_API_BASE}elastic-search/global-search?keyword=${keyword}`,
     { withCredentials: true },
   );
 };

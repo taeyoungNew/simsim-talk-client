@@ -37,6 +37,8 @@ import { theme } from "../../theme/theme";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import { logout } from "../../store/auth/authAction";
 import { refreshPostsThunk } from "../../store/post/allPostsThunk";
+import { NavSearchInput } from "../atoms/inputs/NavSearchInput";
+import { globalSearchThunk } from "../../store/search/elasticMainPageThunk";
 
 interface NavBarProps {
   sx?: SxProps<Theme>;
@@ -90,6 +92,12 @@ export default function NavBar({ ...props }: NavBarProps) {
     navigate("/suggestedFriendsPage");
   };
 
+  const handleSearch = (keyword: string) => {
+    console.log("검색");
+
+    dispatch(globalSearchThunk({ keyword }));
+  };
+
   return (
     <Box {...props}>
       <AppBar position="static">
@@ -122,6 +130,9 @@ export default function NavBar({ ...props }: NavBarProps) {
             </NavLink>
           </Box>
 
+          <Box sx={{ color: "black" }}>
+            <NavSearchInput onSearch={handleSearch} />
+          </Box>
           {isLogin === true ? (
             // 알람
             <Box sx={{ display: { xs: "none", md: "flex" } }}>

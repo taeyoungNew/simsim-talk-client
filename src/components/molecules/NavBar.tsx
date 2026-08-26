@@ -38,7 +38,7 @@ import DraftsIcon from "@mui/icons-material/Drafts";
 import { logout } from "../../store/auth/authAction";
 import { refreshPostsThunk } from "../../store/post/allPostsThunk";
 import { NavSearchInput } from "../atoms/inputs/NavSearchInput";
-import { globalSearchThunk } from "../../store/search/elasticMainPageThunk";
+import { globalSearchThunk } from "../../store/search/elasticSearchThunk";
 
 interface NavBarProps {
   sx?: SxProps<Theme>;

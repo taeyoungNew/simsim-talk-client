@@ -10,6 +10,15 @@ interface Error {
 interface search {
   keyword: string;
 }
+
+interface Comment {
+  id: number;
+  postId: number;
+  userId: string;
+  userNickname: string;
+  content: string;
+  createAt: string;
+}
 interface Posts {
   id: number;
   profileUrl: string;
@@ -31,8 +40,7 @@ export const globalSearchThunk = createAsyncThunk<
   { rejectValue: Error }
 >("search/mainPage", async ({ keyword }, thunkAPI) => {
   try {
-    const result = (await globalSearchAPI(keyword)).data.data;
-    console.log("search result = ", result);
+    const result = (await globalSearchAPI(keyword)).data.data.posts;
 
     return result;
   } catch (error: any) {

@@ -13,6 +13,7 @@ import { userRelationSlice } from "./userRelation/userRelationSlice";
 import { alarmSlice } from "./alarm/alarmSlice";
 import { suggestedUserSlice } from "./suggestedUser/suggestedUserSlice";
 import { usersEntitiesSlice } from "./user/usersEntitiesSlice";
+import { elasticSearchPostsSlice } from "./search/elasticSearchPostSlice";
 import loadingSlice from "./loading/loadingSlice";
 import errorSlice from "./error/errorSlice";
 
@@ -32,6 +33,7 @@ const store = configureStore({
     AlarmSlice: alarmSlice.reducer,
     SuggestedUserSlice: suggestedUserSlice.reducer,
     UsersEntitiesSlice: usersEntitiesSlice.reducer,
+    ElasticSearchPostsSlice: elasticSearchPostsSlice.reducer,
     LodingSlice: loadingSlice,
     errorSlice: errorSlice,
   },
